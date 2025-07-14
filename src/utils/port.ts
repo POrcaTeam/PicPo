@@ -1,0 +1,123 @@
+// 同panel创建连接
+const connect = chrome.runtime.connect({
+  name: "page",
+});
+connect.onDisconnect.addListener((request) => {
+  try {
+    console.debug(request.sender?.frameId + "lost connection");
+    // window.collector.active = false;
+  } catch (e) {}
+});
+// 用来传递消息到 background script
+const onPostMessage = (request: any) => {
+  if (request.cmd === "download-image") {
+    // try to find the image on page and download it (it is useful specially if the image src is a dead blob)
+    const capture = () => {
+      const e: any = document.querySelector(`img[src="${request.src}"]`);
+
+      if (!e) {
+        return;
+      }
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = e.naturalWidth;
+      canvas.height = e.naturalHeight;
+
+      ctx && ctx.drawImage(e, 0, 0, canvas.width, canvas.height);
+      const href = canvas.toDataURL();
+
+      return connect.postMessage({
+        uid: request.uid,
+        href,
+      });
+    };
+
+    fetch(request.src, {
+      headers: {
+        referer: request.referer,
+      },
+    })
+      .then((r) => r.blob())
+      .then((blob) => {
+        const href = URL.createObjectURL(blob);
+        connect.postMessage({
+          uid: request.uid,
+          href,
+        });
+      })
+      .catch((e) => {
+        try {
+          // can we get the image from an image element
+          capture();
+        } catch (ee) {
+          connect.postMessage({
+            uid: request.uid,
+            error: e.message,
+          });
+        }
+      });
+  } else if (request.cmd === "create-directory") {
+    // window
+    //   .showDirectoryPicker()
+    //   .then(async (d) => {
+    //     window.directory = d;
+    //     if (request.readme) {
+    //       const file = await d.getFileHandle(request.name, {
+    //         create: true,
+    //       });
+    //       const writable = await file.createWritable();
+    //       const blob = new Blob([request.content], {
+    //         type: "text/plain",
+    //       });
+    //       const response = new Response(blob);
+    //       await response.body.pipeTo(writable);
+    //     }
+    //     port.postMessage({
+    //       uid: request.uid,
+    //     });
+    //   })
+    //   .catch((e) => {
+    //     port.postMessage({
+    //       uid: request.uid,
+    //       error: e.message,
+    //     });
+    //   });
+  } else if (request.cmd === "image-to-directory") {
+    // Promise.all([
+    //   fetch(request.href),
+    //   window.directory
+    //     .getFileHandle(request.filename, {
+    //       create: true,
+    //     })
+    //     .then((file) => file.createWritable()),
+    // ]).then(async ([response, writable]) => {
+    //   try {
+    //     await writable.truncate(0);
+    //     await response.body.pipeTo(writable);
+    //   } catch (e) {
+    //     console.warn(e);
+    //   }
+    //   URL.revokeObjectURL(request.href);
+    // });
+  } else if (request.cmd === "stop-collector") {
+    try {
+      // window.collector.active = false;
+    } catch (e) {}
+    if (request.remove) {
+      for (const e of document.querySelectorAll("dialog.daimages")) {
+        e.remove();
+      }
+      connect.disconnect();
+    }
+  }
+};
+connect.onMessage.addListener(onPostMessage);
+
+const post = (request: any) => {
+  try {
+    connect.postMessage(request);
+  } catch (e) {}
+};
+
+window.post = post;
