@@ -109,9 +109,8 @@ export default function Panel() {
           <div className="w-full">
             <Progress />
           </div>
-          <div className="flex flex-col p-2 pt-1 flex-1 w-full min-h-1 transition-all duration-100">
+          <div className="flex flex-col p-2 py-0 flex-1 w-full min-h-1 transition-all duration-100">
             <Filter />
-            <Separator className="mt-1.5" />
             <Action onCheckedChange={onCheckedChange} />
             <List
               ref={listRef}

@@ -1,5 +1,11 @@
 // 数据下载模块
 
+// 下载方式
+export enum DownloadType {
+  FILES = 0, // 按文件下载
+  ZIPFILE = 1, // 按压缩包下载
+  PICORCA = 2, // 下载到picorca
+}
 // 下载配置
 type IDownloadOption = {
   // 是否保存到选定目录下
@@ -14,7 +20,7 @@ type IDownloadOption = {
 
 type RequestData = {
   images: ImageEntry[];
-  option: IDownloadOption;
+  option?: IDownloadOption;
 };
 
 const DEFAULT_DOWNLOAD_OPTION: IDownloadOption = {
@@ -24,9 +30,27 @@ const DEFAULT_DOWNLOAD_OPTION: IDownloadOption = {
   zip: true,
 };
 
+// 下载数据方法
+export const downloadImages = (request: RequestData) => {
+  const { option } = request;
+
+  const assignOption = { ...DEFAULT_DOWNLOAD_OPTION, ...option };
+  perform(request, (filename, image) => {
+    return nativeDownload({
+      url: image.src,
+      filename: image.filename,
+      conflictAction: "uniquify",
+      saveAs: false,
+    });
+  }).then((es) => {
+    console.log(es);
+    // todo
+  });
+};
+
 const perform = async (
   request: RequestData,
-  one: (filename: string, image: ImageEntry) => Promise<void>
+  one: (filename: string, image: ImageEntry) => Promise<number>
 ): Promise<void> => {
   const indices: Record<string, number> = {};
 
@@ -90,7 +114,7 @@ const perform = async (
 const nativeDownload = (
   options: chrome.downloads.DownloadOptions,
   filename = "images.zip"
-) =>
+): Promise<number> =>
   new Promise((resolve) =>
     chrome.downloads.download(options, (id) => {
       if (chrome.runtime.lastError) {

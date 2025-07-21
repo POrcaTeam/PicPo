@@ -1,3 +1,4 @@
+import { downloadImages } from "./download";
 import "./rules";
 
 // 消息提醒
@@ -39,29 +40,14 @@ type Task = {
 // 绑定其他事件
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.debug("Message received:", message); // 调试日志
+  // 如果是从side panel中请求，这里判断 origin是否是chrome-extension:// 开头
+  if (sender.origin && sender.origin.startsWith("chrome-extension:")) {
+    command(message);
+    return;
+  }
   // 未打开标签页直接返回
   if (!sender.tab) return true;
-  let windowId = undefined;
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs[0]) {
-      windowId = tabs[0].windowId;
-    }
-  });
-  // 绑定截图事件
-  if (message.cmd === "screenshot") {
-    if (windowId) {
-      chrome.tabs.captureVisibleTab(windowId, { format: "png" }, (dataUrl) => {
-        if (chrome.runtime.lastError) {
-          console.error("Capture failed:", chrome.runtime.lastError);
-          return;
-        }
-
-        // 打开截图新标签页
-        chrome.tabs.create({ url: dataUrl });
-      });
-    }
-    return true; // 保持消息通道开放以异步响应
-  } else if (message.cmd === "apply-referer") {
+  if (message.cmd === "apply-referer") {
     try {
       const id = Math.floor(Math.random() * 1000000);
       chrome.declarativeNetRequest
@@ -119,56 +105,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// NOTE: 不要在onMessage中绑定事件使用 `async` 异步方法
-// 具体参见
-// https://stackoverflow.com/a/56483156
-// https://developer.chrome.com/docs/extensions/reference/runtime/#event-onMessage
-
-/**
- *
- * @param message @type {any}
- * @param sender @type {chrome.runtime.MessageSender}
- * @param resolve  @type {(response?: any) => void}
- * @returns
- */
-function startDownload(
-  message: any,
-  sender: chrome.runtime.MessageSender,
-  resolve: (response?: any) => void
-) {
-  // 只接受数据下载事件
-  if (!(message && message.type === "collector")) return;
-
-  if (!(message && message.type === "downloadImages")) return;
-
-  downloadImages({
-    numberOfProcessedImages: 0,
-    imagesToDownload: message.imagesToDownload,
-    options: message.options,
-    next() {
-      this.numberOfProcessedImages += 1;
-      if (this.numberOfProcessedImages === this.imagesToDownload.length) {
-        tasks.delete(this);
-      }
-    },
-  }).then(resolve);
-
-  return true; // Keeps the message channel open until `resolve` is called
-}
-
-async function downloadImages(task: Task) {
-  tasks.add(task);
-  for (const image of task.imagesToDownload) {
-    await new Promise((resolve) => {
-      chrome.downloads.download({ url: image }, (downloadId) => {
-        if (downloadId == null) {
-          if (chrome.runtime.lastError) {
-            console.error(`${image}:`, chrome.runtime.lastError.message);
-          }
-          task.next();
+// 功能性请求消息
+const command = (message: any) => {
+  let windowId = undefined;
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0]) {
+      windowId = tabs[0].windowId;
+    }
+  });
+  // 绑定截图事件
+  if (message.cmd === "screenshot") {
+    if (windowId) {
+      chrome.tabs.captureVisibleTab(windowId, { format: "png" }, (dataUrl) => {
+        if (chrome.runtime.lastError) {
+          console.error("Capture failed:", chrome.runtime.lastError);
+          return;
         }
-        resolve(true);
+
+        // 打开截图新标签页
+        chrome.tabs.create({ url: dataUrl });
       });
-    });
+    }
+    return true; // 保持消息通道开放以异步响应
   }
-}
+  // 数据下载
+  else if (message.cmd === "downloads") {
+    downloadImages(message);
+  }
+};

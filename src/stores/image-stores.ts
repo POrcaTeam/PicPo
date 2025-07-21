@@ -1,8 +1,9 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { union, difference } from "es-toolkit";
-import { map } from "es-toolkit/compat";
+import { filter, map } from "es-toolkit/compat";
 import { Utils } from "@src/utils/utils";
+import { classifyImage } from "@src/classify";
 
 export type ImageStates = {
   // 所有检测到的links 数量
@@ -34,6 +35,8 @@ export type ActionStates = {
   clearSelected: () => void;
   // 全部选中
   selectAll: () => void;
+  // 获得选中的图片实例
+  getSelectedImages: () => Array<ImageEntry>;
 };
 
 export type ImageStore = ImageStates & Partial<ActionStates>;
@@ -131,6 +134,7 @@ const useImageStoreBase = create<ImageStore>()(
           size: image.size,
           type: image.type,
         });
+        image.categorize = classifyImage(image);
         if (!originImages[hash]) {
           set((draft) => {
             draft.images[hash] = image;
@@ -177,6 +181,14 @@ const useImageStoreBase = create<ImageStore>()(
       set((draft) => {
         draft.selectedImages = [];
       });
+    },
+    getSelectedImages: () => {
+      const images = get().images;
+      const selectedImages = get().selectedImages;
+      return filter(
+        images,
+        (_image, key) => selectedImages.indexOf(key) !== -1
+      );
     },
   }))
 );

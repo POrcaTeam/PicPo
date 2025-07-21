@@ -21,10 +21,16 @@ export const Progress = () => {
   }, [allLinks, progress]);
 
   return (
-    <div className={cn("w-full flex bg-white", percent === 100 && "hidden")}>
-      <div className="flex-1 px-2">
+    <div
+      className={cn(
+        "w-full flex my-[10px] bg-white items-center px-2",
+        percent === 100 && "hidden"
+      )}
+    >
+      <div className="flex-1">
         <ProgressBar value={percent} className="w-full" />
       </div>
+      <div className="flex-none ml-2 text-[#111111]">加载中...</div>
     </div>
   );
 };

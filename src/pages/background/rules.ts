@@ -27,12 +27,6 @@ chrome.action.onClicked.addListener(async (tab) => {
     }
   );
 
-  //   // 主动打开 Side Panel（需要 manifest v3 中开启 side_panel 权限）
-  //   await chrome.sidePanel.open({ tabId: tab.id });
-
-  //   // 记录当前打开了 Side Panel 的 tabId
-  //   await chrome.storage.session.set({ currentSidePanelTabId: tab.id });
-
   try {
     const tabId = tab.id;
     tabId &&

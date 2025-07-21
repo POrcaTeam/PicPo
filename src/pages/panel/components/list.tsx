@@ -1,15 +1,11 @@
-import { SquareBottomDashedScissors } from "lucide-react";
 import { useRef, useEffect, useImperativeHandle } from "react";
-import { filesize } from "filesize";
-import { map } from "es-toolkit/compat";
 
 import { Checkbox } from "@src/components/ui/checkbox";
 import { ImageFunction, Selection } from "./image-selection";
 import { Label } from "@src/components/ui/label";
 import { cn } from "@src/lib/utils";
-import { Button } from "@src/components/ui/button";
 import { useImageStore } from "@src/stores/image-stores";
-import { Image } from "./image";
+import { Category } from "../category";
 
 const CATEGORIZE = [
   {
@@ -39,8 +35,6 @@ export const List: React.FC<{
   ref?: React.Ref<ListFunction>;
   className?: string;
 }> = ({ className, ref }) => {
-  const images = useImageStore((store) => store.images);
-  console.log(images);
   const onScreenShoot = () => {
     chrome.runtime.sendMessage({ cmd: "screenshot" });
   };
@@ -85,38 +79,30 @@ export const List: React.FC<{
       )}
     >
       <Selection ref={selectionRef} className="relative h-full w-full">
-        {CATEGORIZE.map((item) => {
+        {CATEGORIZE.map((item, index) => {
           return (
-            <div key={item.id} className="text-[#363636] my-3">
-              <div className="flex items-center gap-3 text-sm">
+            <div
+              key={item.id}
+              className={cn(
+                "text-[#363636] my-[10px]",
+                index === 0 && "my-[2px]"
+              )}
+            >
+              <div className="flex items-center gap-2 text-sm">
                 <Checkbox id={item.name} />
-                <Label htmlFor={item.name}>{item.name}</Label>
-                {item.id === "capture" && (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="cursor-pointer"
-                    onClick={onScreenShoot}
-                  >
-                    <SquareBottomDashedScissors className="size-4 cursor-pointer text-emerald-600" />
-                  </Button>
-                )}
+                <Label
+                  htmlFor={item.name}
+                  className="text-[#111111] text-base font-medium"
+                >
+                  {item.name}
+                </Label>
               </div>
-              <div className={cn(item.id !== "capture" && "mt-3")}>
+              <div className="">
                 {/* 截图和主图是一行2张，图标是一行6张 */}
                 {item.id === "capture" && (
                   <div className="grid grid-cols-2 gap-2"></div>
                 )}
-                {item.id === "primary" && (
-                  <div className="grid grid-cols-2 gap-2">
-                    {map(images, (image, key) => {
-                      return <Image image={image} key={key} id={key} />;
-                    })}
-                  </div>
-                )}
-                {item.id !== "capture" && item.id !== "primary" && (
-                  <div className="grid grid-cols-5"></div>
-                )}
+                {item.id !== "capture" && <Category categoryId={item.id} />}
               </div>
             </div>
           );

@@ -18,6 +18,7 @@ interface ImageEntry {
   };
   position?: number; // 资源序号
   disposition?: string;
+  categorize?: "main" | "icon" | "other";
 }
 
 interface DocumentEntry {
