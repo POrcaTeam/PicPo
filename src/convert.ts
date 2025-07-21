@@ -4,8 +4,19 @@ declare global {
   interface Window {
     collector: Collector;
     post: (request: any) => void;
+    size: any;
+    type: any;
   }
 }
+
+/**
+ * accuracy: accurate → 强制计算尺寸（包括size、宽度和高度）
+ *
+ * accuracy: partial-accurate → 强制计算宽度和高度
+ *
+ * accuracy: no-accurate → 不进行外部请求
+ */
+type AccuracyType = "accurate" | "partial-accurate" | "no-accurate";
 // 因为content创建时间早于popup初始化，所以这里不能直接加载
 // import { post } from "./utils/port";
 // 我们尝试去加载一个空方法
@@ -13,7 +24,7 @@ const testPost = (request: any) => {
   // 验证 window 是否包含post方法
   // 如果包含执行window方法，如果不包括保证代码不报错执行空方法
   if (typeof window.post === "function") {
-    (window as any).post(request);
+    window.post(request);
   }
 };
 
@@ -61,7 +72,7 @@ const testPost = (request: any) => {
  */
 export class Collector {
   // 是否启用采集器
-  private active = true;
+  public active = true;
   // 分类收集的链接：
   // 1：图片；2：同源资源（但不是图片）；3：其它链接
   private feeds = {
@@ -75,7 +86,7 @@ export class Collector {
   private processedImages: ImageEntry[] = [];
   // 等待进一步解析的 HTML 文档
   private docs: DocumentEntry[] = [];
-  // 用于去重，记录已处理的 URL
+  // 用于去重，记录已处理的 URL，也可记录当前总计发现的链接数量
   private cache = new Set<string>();
   private position = 0;
 
@@ -86,8 +97,9 @@ export class Collector {
 
   constructor(
     private regexp: RegExp[] = [], // 正则表达式
-    private deep: number = 2, // 检索深度
-    private customAttr: string = ""
+    private deep: number = 1, // 检索深度 1|2|3
+    private customAttr: string = "id",
+    private accuracy: AccuracyType = "partial-accurate"
   ) {}
 
   /**
@@ -185,7 +197,7 @@ export class Collector {
       }
     }
 
-    const accuracy = (window as any).accuracy;
+    const accuracy = this.accuracy;
     const conds = [
       (accuracy === "accurate" || accuracy === "partial-accurate") && !o.width,
       accuracy !== "accurate" || o.size,
@@ -222,10 +234,11 @@ export class Collector {
           o.type?.startsWith("image/") ||
           o.type?.startsWith("application/")
         ) {
+          // 添加图片
           this.addImage(o);
         } else if (o.type?.startsWith("text/html")) {
-          this.docs.push(o);
-          for (let i = 0; i < 5; i++) this.dig();
+          // 添加待检索文档
+          this.document(o);
           rm = true;
         }
       }
@@ -244,10 +257,10 @@ export class Collector {
   }
 
   private addImage(o: ImageEntry) {
-    const accuracy = (window as any).accuracy;
+    const accuracy = this.accuracy;
     if (
       (accuracy === "accurate" || accuracy === "partial-accurate") &&
-      !o.width
+      (!o.width || !o.size)
     ) {
       this.rawImages.push(o);
       this.head();
@@ -259,25 +272,56 @@ export class Collector {
       return;
     }
     this.processedImages.push(o);
-    console.log({ cmd: "images", images: [o] });
     testPost({ cmd: "images", images: [o] });
   }
 
   private async head() {
     if (this.headJobs > 5 || !this.active) return;
 
+    const prefs = await new Promise<{
+      "head-timeout": number;
+      "head-delay": number;
+    }>((resolve) =>
+      chrome.storage.local.get(
+        { "head-timeout": 30000, "head-delay": 100 },
+        resolve
+      )
+    );
+
     const o = this.rawImages.shift();
     if (!o) return;
 
     this.headJobs++;
+
     try {
       const r = await Utils.responseSegment(o);
+
       o.size = r.size;
       o.type = Utils.type(o, r);
       o.disposition = r.disposition;
-      // TODO: image width/height detection
-    } catch (e) {
-      // fallback to loading image
+
+      // 调用类型解析器判断并解析宽高
+      for (const name of ["bmp", "png", "gif", "webp", "jpg", "svg"]) {
+        if ((window as any).type?.[name]?.(r.segment)) {
+          // 判断是否具备大小,没有大小重新计算
+          if (!o.size || !o.width) {
+            const meta = (window as any).size?.[name]?.(r.segment);
+            if (meta) {
+              Object.assign(o, meta);
+              o.meta.size = "size.js";
+              break;
+            }
+          }
+        }
+      }
+
+      if (!o.width) throw new Error("size detection failed: " + o.src);
+    } catch (e: any) {
+      // fallback：使用 Image.onload 检测宽高
+      if (e.message === "STATUS_CODE_403") {
+        testPost({ cmd: "alternative-image-may-work" });
+      }
+
       await new Promise<void>((resolve) => {
         const img = new Image();
         img.onload = () => {
@@ -297,18 +341,46 @@ export class Collector {
 
     if (o.type?.startsWith("image/")) {
       this.processedImages.push(o);
-      testPost({ cmd: "images", images: [o] });
+      testPost({
+        cmd: "images",
+        images: [o],
+      });
     }
 
+    // 再调下一项
     setTimeout(() => {
       this.headJobs--;
       this.report();
       this.head();
-    }, 100);
+    }, prefs["head-delay"]);
+  }
+
+  // 添加新文档
+  private document(o: ImageEntry) {
+    if (this.active === false) {
+      return;
+    }
+    if (this.deep > 1 && o.meta.origin.startsWith("one")) {
+      this.docs.push(o);
+      for (let i = 0; i < 5; i++) this.dig();
+    }
   }
 
   private async dig() {
     if (this.digJobs > 5 || !this.active) return;
+
+    const prefs = await new Promise<{
+      "dig-timeout": number;
+      "dig-delay": number;
+    }>((resolve) =>
+      chrome.storage.local.get(
+        {
+          "dig-delay": 100,
+          "dig-timeout": 30 * 1000,
+        },
+        resolve
+      )
+    );
 
     const o = this.docs.shift();
     if (!o?.src) return;
@@ -336,7 +408,7 @@ export class Collector {
       this.digJobs--;
       this.report();
       this.dig();
-    }, 100);
+    }, prefs["dig-delay"]);
   }
 
   /**
@@ -353,15 +425,14 @@ export class Collector {
     policies: Policies,
     options: {
       // 确认mime类型并从服务器猜测文件名
-      accuracy?: "accurate" | "partial-accurate" | "no-accurate";
-      customAttr?: string;
+      accuracy?: AccuracyType;
     } = {
-      accuracy: "accurate", // 默认使用部分准确的方式
-      customAttr: "", // 自定义属性名
+      accuracy: "partial-accurate", // 默认使用部分准确的方式
     }
   ) {
     // 读取参数
-    const { accuracy, customAttr } = options;
+    const { accuracy } = options;
+    this.accuracy = accuracy ? accuracy : "no-accurate";
 
     const docs: (Document | ShadowRoot)[] = [doc];
     this.findRoots(doc, docs);

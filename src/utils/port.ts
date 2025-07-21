@@ -1,11 +1,17 @@
+// port作为通用入口,动态注入到标签页中
+// 导入其他包
+import "./fetch";
+import "./size";
+
 // 同panel创建连接
 const connect = chrome.runtime.connect({
   name: "page",
 });
+// 当插件窗口关闭时禁用数据收集
 connect.onDisconnect.addListener((request) => {
   try {
     console.debug(request.sender?.frameId + "lost connection");
-    // window.collector.active = false;
+    window.collector.active = false;
   } catch (e) {}
 });
 // 用来传递消息到 background script
@@ -117,7 +123,9 @@ connect.onMessage.addListener(onPostMessage);
 const post = (request: any) => {
   try {
     connect.postMessage(request);
-  } catch (e) {}
+  } catch (e) {
+    console.error("post-error", e);
+  }
 };
 
-window.post = post;
+self.post = post;

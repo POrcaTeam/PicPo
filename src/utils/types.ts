@@ -9,12 +9,14 @@ interface ImageEntry {
   verified?: boolean;
   page: string; // 资源所在的页面路径
   custom?: string;
+  hostname?: string; // 资源所在host地址
+  filename?: string; // 文件名称
   meta: {
     origin: string;
     size?: string;
     type?: string;
   };
-  position?: number;
+  position?: number; // 资源序号
   disposition?: string;
 }
 

@@ -248,3 +248,24 @@ export class Utils {
     }
   };
 }
+
+export function forEachEntry<T extends object>(
+  obj: T,
+  callback: (key: keyof T, value: T[keyof T]) => void
+) {
+  (Object.keys(obj) as Array<keyof T>).forEach((key) => {
+    callback(key, obj[key]);
+  });
+}
+
+export function mapObjectToArray<T extends Record<string, any>, R>(
+  obj: T,
+  mapper: (key: keyof T, value: T[keyof T]) => R
+): Record<keyof T, R> {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [
+      key,
+      mapper(key as keyof T, value),
+    ])
+  ) as Record<keyof T, R>;
+}

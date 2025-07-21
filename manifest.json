@@ -28,7 +28,8 @@
     "downloads",
     "notifications",
     "unlimitedStorage",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
   ],
   "content_scripts": [
     {
@@ -51,7 +52,8 @@
       "resources": [
         "contentStyle.css",
         "icon-128.png",
-        "icon-32.png"
+        "icon-32.png",
+        "favicon.png"
       ],
       "matches": ["<all_urls>"]
     }
