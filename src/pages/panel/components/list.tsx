@@ -1,11 +1,13 @@
-import { useRef, useEffect, useImperativeHandle } from "react";
+import { useRef, useEffect, useImperativeHandle, useCallback } from "react";
 
 import { Checkbox } from "@src/components/ui/checkbox";
 import { ImageFunction, Selection } from "./image-selection";
 import { Label } from "@src/components/ui/label";
 import { cn } from "@src/lib/utils";
-import { useImageStore } from "@src/stores/image-stores";
 import { Category } from "../category";
+import { useImageStore } from "@src/stores/image-stores";
+import { filter, keys, map } from "es-toolkit/compat";
+import { useShallow } from "zustand/shallow";
 
 const CATEGORIZE = [
   {
@@ -13,7 +15,7 @@ const CATEGORIZE = [
     name: "捕获",
   },
   {
-    id: "primary",
+    id: "main",
     name: "主图",
   },
   {
@@ -35,6 +37,12 @@ export const List: React.FC<{
   ref?: React.Ref<ListFunction>;
   className?: string;
 }> = ({ className, ref }) => {
+  const { addSelectImage, removeSelectImage } = useImageStore(
+    useShallow((store) => ({
+      addSelectImage: store.addSelectImage,
+      removeSelectImage: store.removeSelectImage,
+    }))
+  );
   const onScreenShoot = () => {
     chrome.runtime.sendMessage({ cmd: "screenshot" });
   };
@@ -70,6 +78,20 @@ export const List: React.FC<{
     };
   }, []);
 
+  const onGroupCheck = useCallback((id: string, type: boolean) => {
+    const images = useImageStore.getState().images;
+    const filtered = Object.fromEntries(
+      Object.entries(images).filter(([_key, image]) => image.categorize === id)
+    );
+
+    const filteredKeys = keys(filtered);
+
+    if (type) {
+      addSelectImage?.(filteredKeys);
+    } else {
+      removeSelectImage?.(filteredKeys);
+    }
+  }, []);
   return (
     <div
       id="files-scrollbar"
@@ -89,7 +111,12 @@ export const List: React.FC<{
               )}
             >
               <div className="flex items-center gap-2 text-sm">
-                <Checkbox id={item.name} />
+                <Checkbox
+                  id={item.name}
+                  onCheckedChange={(e) => {
+                    onGroupCheck(item.id, Boolean(e));
+                  }}
+                />
                 <Label
                   htmlFor={item.name}
                   className="text-[#111111] text-base font-medium"

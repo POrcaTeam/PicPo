@@ -106,6 +106,24 @@ export class Collector {
    * 启动入口（调用后开始运行采集任务）
    */
   public loop() {
+    // 重置到初始状态
+    if (this.position > 0) {
+      this.headJobs = 0;
+      this.validateJobs = 0;
+      this.digJobs = 0;
+      this.feeds = {
+        1: [] as ImageEntry[],
+        2: [] as ImageEntry[],
+        3: [] as ImageEntry[],
+      };
+      this.rawImages = [];
+      this.processedImages = [];
+      this.docs = [];
+      this.cache = new Set<string>();
+      this.position = 0;
+    }
+    this.active = true;
+
     // 开始采集图片
     this.inspect(document, location, "one", {
       bg: true, // 采集背景图片
@@ -357,7 +375,7 @@ export class Collector {
 
   // 添加新文档
   private document(o: ImageEntry) {
-    if (this.active === false) {
+    if (!this.active) {
       return;
     }
     if (this.deep > 1 && o.meta.origin.startsWith("one")) {

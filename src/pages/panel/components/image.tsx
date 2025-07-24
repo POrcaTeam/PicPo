@@ -22,16 +22,17 @@ export const Image = ({
     <div
       data-key={id}
       className={cn(
-        "selectable bg-gray-200 h-auto flex items-center justify-center rounded-md transition-shadow duration-100 hover:shadow-[0px_0px_6px_2px_#89F384]",
+        "relative selectable bg-gray-200 h-auto flex flex-col items-center justify-center rounded-md transition-shadow duration-100 hover:shadow-[0px_0px_6px_2px_#89F384] cursor-pointer group mb-6",
         isSelected ? "shadow-[0px_0px_6px_2px_#89F384]" : "",
         category === "main" ? "h-30" : "aspect-square"
       )}
-      style={{ contain: "paint" }}
+      data-select-muti
     >
       <div
         className={cn(
           "absolute top-2 left-2 text-sm text-white flex flex-col space-y-2"
         )}
+        data-select-muti
       >
         <div
           className={cn(
@@ -53,10 +54,16 @@ export const Image = ({
         draggable="false"
         referrerPolicy="no-referrer"
         className={cn(
-          "bg-gray-200 object-contain h-auto w-auto p-0 rounded-md",
+          "bg-gray-200 object-contain h-auto w-auto p-0",
           category !== "main" && "h-full p-4"
         )}
+        data-select-muti
       />
+      <div className="w-full absolute bottom-[-20px]">
+        <div className="text-[#3b3b3b]">
+          {image.width} X {image.height}
+        </div>
+      </div>
     </div>
   );
 };

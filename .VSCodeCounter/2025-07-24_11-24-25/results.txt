@@ -1,0 +1,153 @@
+Date : 2025-07-24 11:24:25
+Directory : /Users/thoulappea/Documents/picorca/picorca-extension
+Total : 89 files,  10127 codes, 423 comments, 1743 blanks, all 12293 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| YAML               |          4 |      4,749 |         10 |      1,176 |      5,935 |
+| TypeScript         |         27 |      2,567 |        341 |        297 |      3,205 |
+| TypeScript JSX     |         29 |      1,899 |         72 |        181 |      2,152 |
+| XML                |          3 |        237 |          0 |          1 |        238 |
+| JSON               |          7 |        212 |          0 |          5 |        217 |
+| PostCSS            |         10 |        194 |          0 |         23 |        217 |
+| Markdown           |          2 |        168 |          0 |         48 |        216 |
+| HTML               |          5 |         54 |          0 |          9 |         63 |
+| JSON with Comments |          1 |         33 |          0 |          1 |         34 |
+| SCSS               |          1 |         14 |          0 |          2 |         16 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                         | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                            |         89 |     10,127 |        423 |      1,743 |     12,293 |
+| . (Files)                                                                                                    |         13 |      5,256 |          6 |      1,227 |      6,489 |
+| .github                                                                                                      |          4 |         69 |         10 |         17 |         96 |
+| .github (Files)                                                                                              |          2 |         17 |         10 |          2 |         29 |
+| .github/ISSUE_TEMPLATE                                                                                       |          1 |         25 |          0 |          9 |         34 |
+| .github/workflows                                                                                            |          1 |         27 |          0 |          6 |         33 |
+| public                                                                                                       |          2 |        115 |          0 |          1 |        116 |
+| src                                                                                                          |         70 |      4,687 |        407 |        498 |      5,592 |
+| src (Files)                                                                                                  |          5 |        986 |        159 |        134 |      1,279 |
+| src/assets                                                                                                   |          3 |        245 |          0 |          8 |        253 |
+| src/assets/img                                                                                               |          2 |        122 |          0 |          1 |        123 |
+| src/assets/styles                                                                                            |          1 |        123 |          0 |          7 |        130 |
+| src/components                                                                                               |          9 |        711 |          0 |         70 |        781 |
+| src/components/ui                                                                                            |          9 |        711 |          0 |         70 |        781 |
+| src/lib                                                                                                      |          2 |         22 |          0 |          6 |         28 |
+| src/lib (Files)                                                                                              |          1 |          5 |          0 |          2 |          7 |
+| src/lib/hooks                                                                                                |          1 |         17 |          0 |          4 |         21 |
+| src/locales                                                                                                  |          1 |         10 |          0 |          0 |         10 |
+| src/locales/en                                                                                               |          1 |         10 |          0 |          0 |         10 |
+| src/pages                                                                                                    |         42 |      1,780 |        141 |        198 |      2,119 |
+| src/pages/background                                                                                         |          4 |        313 |         49 |         40 |        402 |
+| src/pages/content                                                                                            |          3 |         27 |          3 |          7 |         37 |
+| src/pages/devtools                                                                                           |          2 |         16 |          0 |          3 |         19 |
+| src/pages/newtab                                                                                             |          5 |         91 |          0 |         15 |        106 |
+| src/pages/options                                                                                            |          5 |         35 |          0 |          9 |         44 |
+| src/pages/panel                                                                                              |         19 |      1,237 |         89 |        115 |      1,441 |
+| src/pages/panel (Files)                                                                                      |          7 |        210 |         12 |         21 |        243 |
+| src/pages/panel/components                                                                                   |          8 |        861 |         47 |         67 |        975 |
+| src/pages/panel/inject                                                                                       |          4 |        166 |         30 |         27 |        223 |
+| src/pages/popup                                                                                              |          4 |         61 |          0 |          9 |         70 |
+| src/stores                                                                                                   |          2 |        257 |         36 |         31 |        324 |
+| src/utils                                                                                                    |          6 |        676 |         71 |         51 |        798 |
++--------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                     | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/thoulappea/Documents/picorca/picorca-extension/.github/ISSUE_TEMPLATE/bug_report.md                   | Markdown           |         25 |          0 |          9 |         34 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/.github/dependabot.yml                                 | YAML               |          6 |          4 |          2 |         12 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/.github/stale.yml                                      | YAML               |         11 |          6 |          0 |         17 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/.github/workflows/ci.yml                               | YAML               |         27 |          0 |          6 |         33 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/README.md                                              | Markdown           |        143 |          0 |         39 |        182 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/components.json                                        | JSON               |         21 |          0 |          0 |         21 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/custom-vite-plugins.ts                                 | TypeScript         |         50 |          2 |          4 |         56 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/manifest.dev.json                                      | JSON               |         17 |          0 |          1 |         18 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/manifest.json                                          | JSON               |         58 |          0 |          1 |         59 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/nodemon.chrome.json                                    | JSON               |         18 |          0 |          1 |         19 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/nodemon.firefox.json                                   | JSON               |         18 |          0 |          1 |         19 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/package.json                                           | JSON               |         70 |          0 |          1 |         71 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/pnpm-lock.yaml                                         | YAML               |      4,705 |          0 |      1,168 |      5,873 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/public/contentStyle.css                                | PostCSS            |          0 |          0 |          1 |          1 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/public/favicon.svg                                     | XML                |        115 |          0 |          0 |        115 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/assets/img/favicon.svg                             | XML                |        115 |          0 |          0 |        115 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/assets/img/logo.svg                                | XML                |          7 |          0 |          1 |          8 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/assets/styles/tailwind.css                         | PostCSS            |        123 |          0 |          7 |        130 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/classify.ts                                        | TypeScript         |         21 |          4 |          5 |         30 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/collector.ts                                       | TypeScript         |        478 |         58 |         68 |        604 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/button.tsx                           | TypeScript JSX     |         54 |          0 |          6 |         60 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/checkbox.tsx                         | TypeScript JSX     |         27 |          0 |          4 |         31 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/dialog.tsx                           | TypeScript JSX     |        129 |          0 |         13 |        142 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/dropdown-menu.tsx                    | TypeScript JSX     |        238 |          0 |         18 |        256 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/input.tsx                            | TypeScript JSX     |         18 |          0 |          4 |         22 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/label.tsx                            | TypeScript JSX     |         19 |          0 |          4 |         23 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/progress.tsx                         | TypeScript JSX     |         26 |          0 |          4 |         30 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/select.tsx                           | TypeScript JSX     |        177 |          0 |         13 |        190 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/separator.tsx                        | TypeScript JSX     |         23 |          0 |          4 |         27 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/convert.ts                                         | TypeScript         |        477 |         96 |         56 |        629 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/global.d.ts                                        | TypeScript         |         10 |          0 |          4 |         14 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/lib/hooks/useAsyncMemo.ts                          | TypeScript         |         17 |          0 |          4 |         21 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/lib/utils.ts                                       | TypeScript         |          5 |          0 |          2 |          7 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/locales/en/messages.json                           | JSON               |         10 |          0 |          0 |         10 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/download.ts                       | TypeScript         |         96 |         18 |         15 |        129 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/index.ts                          | TypeScript         |        114 |         13 |         11 |        138 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/rules.ts                          | TypeScript         |        100 |         18 |         11 |        129 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/zip.ts                            | TypeScript         |          3 |          0 |          3 |          6 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/content/content.tsx                          | TypeScript JSX     |          7 |          1 |          2 |         10 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/content/index.tsx                            | TypeScript JSX     |         16 |          2 |          4 |         22 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/content/style.css                            | PostCSS            |          4 |          0 |          1 |          5 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/devtools/index.html                          | HTML               |         10 |          0 |          1 |         11 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/devtools/index.ts                            | TypeScript         |          6 |          0 |          2 |          8 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/Newtab.css                            | PostCSS            |         33 |          0 |          6 |         39 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/Newtab.tsx                            | TypeScript JSX     |         23 |          0 |          2 |         25 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/index.css                             | PostCSS            |         12 |          0 |          2 |         14 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/index.html                            | HTML               |         11 |          0 |          2 |         13 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/index.tsx                             | TypeScript JSX     |         12 |          0 |          3 |         15 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/Options.css                          | PostCSS            |          8 |          0 |          1 |          9 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/Options.tsx                          | TypeScript JSX     |          5 |          0 |          2 |          7 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/index.css                            | PostCSS            |          0 |          0 |          1 |          1 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/index.html                           | HTML               |         11 |          0 |          2 |         13 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/index.tsx                            | TypeScript JSX     |         11 |          0 |          3 |         14 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/Panel.css                              | PostCSS            |          3 |          0 |          1 |          4 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/Panel.tsx                              | TypeScript JSX     |        115 |         12 |         11 |        138 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/category.tsx                           | TypeScript JSX     |         59 |          0 |          2 |         61 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/action.tsx                  | TypeScript JSX     |        122 |          7 |          9 |        138 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/filter.tsx                  | TypeScript JSX     |        221 |          4 |          8 |        233 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/image-selection.module.scss | SCSS               |         14 |          0 |          2 |         16 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/image-selection.tsx         | TypeScript JSX     |        114 |         21 |         18 |        153 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/image.tsx                   | TypeScript JSX     |         66 |          0 |          4 |         70 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/list.tsx                    | TypeScript JSX     |        129 |          2 |         10 |        141 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/progress.tsx                | TypeScript JSX     |         32 |          0 |          5 |         37 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/save-dialog.tsx             | TypeScript JSX     |        163 |         13 |         11 |        187 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/err.tsx                                | TypeScript JSX     |         10 |          0 |          1 |         11 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/index.css                              | PostCSS            |          0 |          0 |          1 |          1 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/index.html                             | HTML               |         11 |          0 |          2 |         13 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/index.tsx                              | TypeScript JSX     |         12 |          0 |          3 |         15 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/communicate.ts                  | TypeScript         |         89 |         16 |         11 |        116 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/download.ts                     | TypeScript         |         36 |          3 |          3 |         42 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/useUnmount.ts                   | TypeScript         |          9 |          1 |          5 |         15 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/useZip.tsx                      | TypeScript JSX     |         32 |         10 |          8 |         50 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/Popup.tsx                              | TypeScript JSX     |         27 |          0 |          2 |         29 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/index.css                              | PostCSS            |         11 |          0 |          2 |         13 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/index.html                             | HTML               |         11 |          0 |          2 |         13 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/index.tsx                              | TypeScript JSX     |         12 |          0 |          3 |         15 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/stores/filter-store.ts                             | TypeScript         |         67 |          0 |         10 |         77 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/stores/image-stores.ts                             | TypeScript         |        190 |         36 |         21 |        247 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/utils/fetch.ts                                     | TypeScript         |         57 |          1 |          7 |         65 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/utils/port.ts                                      | TypeScript         |         73 |         50 |          9 |        132 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/utils/size.ts                                      | TypeScript         |        161 |         16 |         24 |        201 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/utils/types.ts                                     | TypeScript         |         50 |          0 |          5 |         55 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/utils/utils.ts                                     | TypeScript         |        311 |          0 |          4 |        315 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/utils/worker-zip.ts                                | TypeScript         |         24 |          4 |          2 |         30 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/src/vite-env.d.ts                                      | TypeScript         |          0 |          1 |          1 |          2 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/tsconfig.json                                          | JSON with Comments |         33 |          0 |          1 |         34 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/vite.config.base.ts                                    | TypeScript         |         65 |          4 |          5 |         74 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/vite.config.chrome.ts                                  | TypeScript         |         29 |          0 |          2 |         31 |
+| /Users/thoulappea/Documents/picorca/picorca-extension/vite.config.firefox.ts                                 | TypeScript         |         29 |          0 |          3 |         32 |
+| Total                                                                                                        |                    |     10,127 |        423 |      1,743 |     12,293 |
++--------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

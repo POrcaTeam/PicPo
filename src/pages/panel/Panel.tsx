@@ -1,18 +1,18 @@
-import React, { useCallback, useMemo, useRef } from "react";
-import "@pages/panel/Panel.css";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useShallow } from "zustand/shallow";
 
 // 导入注入的方法
 import { useCommunication } from "./inject/communicate";
-import { Button } from "@src/components/ui/button";
 import { Filter } from "./components/filter";
 import { Action } from "./components/action";
-import { Separator } from "@src/components/ui/separator";
 import { List, ListFunction } from "./components/list";
 import { useImageStore } from "@src/stores/image-stores";
-import { useShallow } from "zustand/shallow";
 import { Progress } from "./components/progress";
 import { ErrEl } from "./err";
 import { useAsyncMemo } from "@src/lib/hooks/useAsyncMemo";
+
+import "@pages/panel/Panel.css";
+import { useUnmount } from "./inject/useUnmount";
 
 export default function Panel() {
   const { addImages, addLinks, allFrames } = useImageStore(
@@ -52,8 +52,8 @@ export default function Panel() {
     return realWebPage;
   }, []);
 
-  const [tabId, setTabId] = React.useState<number>(0);
-  React.useEffect(() => {
+  const [tabId, setTabId] = useState<number>(0);
+  useEffect(() => {
     // 查询网页内所有图片
     isRealWebPage &&
       chrome.windows.getCurrent((currentWindow) => {
@@ -68,7 +68,8 @@ export default function Panel() {
       });
   }, [isRealWebPage]);
 
-  useCommunication(
+  // 得到数据发送通道实例，可以向指定frameId发送消息
+  const { communication, dispose } = useCommunication(
     tabId,
     async () => {
       if (!tabId) return;
@@ -98,9 +99,11 @@ export default function Panel() {
   const onCheckedChange = useCallback((checked: boolean) => {
     listRef.current && listRef.current.onAllChecked(checked);
   }, []);
-  const onCollector = React.useCallback(() => {
-    alert("123");
-  }, []);
+
+  // 退出释放状态
+  useUnmount(() => {
+    dispose();
+  });
   return (
     <div className="container flex flex-col flex-nowrap items-center justify-center h-dvh">
       {!isRealWebPage && <ErrEl />}
@@ -109,9 +112,12 @@ export default function Panel() {
           <div className="w-full">
             <Progress />
           </div>
-          <div className="flex flex-col p-2 py-0 flex-1 w-full min-h-1 transition-all duration-100">
+          <div className="flex flex-col p-2 py-0 mt-[5px] flex-1 w-full min-h-1 transition-all duration-100">
             <Filter />
-            <Action onCheckedChange={onCheckedChange} />
+            <Action
+              onCheckedChange={onCheckedChange}
+              communication={communication}
+            />
             <List
               ref={listRef}
               className="flex-1 basis-1 min-h-1 overflow-y-auto"
@@ -124,6 +130,8 @@ export default function Panel() {
 }
 
 function findImages() {
+  // 设置为采集状态
+  window.collector.active = true;
   const result = window.collector.loop();
   console.log(result);
 }

@@ -42,8 +42,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.debug("Message received:", message); // 调试日志
   // 如果是从side panel中请求，这里判断 origin是否是chrome-extension:// 开头
   if (sender.origin && sender.origin.startsWith("chrome-extension:")) {
-    command(message);
-    return;
+    return command(message, sendResponse);
   }
   // 未打开标签页直接返回
   if (!sender.tab) return true;
@@ -106,7 +105,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // 功能性请求消息
-const command = (message: any) => {
+const command = (message: any, sendResponse: (response?: any) => void) => {
   let windowId = undefined;
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs[0]) {
@@ -130,6 +129,9 @@ const command = (message: any) => {
   }
   // 数据下载
   else if (message.cmd === "downloads") {
-    downloadImages(message);
+    downloadImages(message).then((response) => {
+      sendResponse(response);
+    });
+    return true; // 保持消息通道开放以异步响应
   }
 };

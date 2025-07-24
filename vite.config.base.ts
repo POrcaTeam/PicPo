@@ -34,11 +34,14 @@ export const baseBuildOptions: BuildOptions = {
     input: {
       // 额外入口，单独打包
       port: resolve(__dirname, "src/utils/port.ts"),
+      // 额外入口，单独打包
+      zip: resolve(__dirname, "src/utils/worker-zip.ts"),
     },
     output: {
       entryFileNames: (chunk) => {
         // 让 port.ts 编译后变成 /port.js
         if (chunk.name === "port") return "port.js";
+        if (chunk.name === "zip") return "zip.js";
         return "[name].js";
       },
     },

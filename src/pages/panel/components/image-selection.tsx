@@ -90,8 +90,49 @@ export const Selection: React.FC<{
     }
   }, [selected]);
 
+  // 绑定事件监听点击到界面外某个元素取消选中
+  const componentRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // 点击到元素外，包括id="folder_items"||id="files-layout-datails"清空选中
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!event.target) return;
+      if (
+        componentRef.current &&
+        !componentRef.current.contains(event.target as any)
+      ) {
+        // 操作栏
+        // let element = document.getElementById("action_panel");
+        // if ((event.target as any).contains(element)) {
+        //   setSelected(() => new Set());
+        //   selectionRef.current && selectionRef.current.clearSelection();
+        // }
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, false);
+    };
+  }, []);
+
+  // 没有点击到元素清空选中
+  const onClick = React.useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      let target = e.target;
+      // 是否是多选元素
+      let hasMuti = (target as HTMLElement).hasAttribute("data-select-muti");
+      // 如果不是多选元素清空当前选中项目
+      // if (!hasMuti) {
+      //   setSelected(() => new Set());
+      //   selectionRef.current && selectionRef.current.clearSelection();
+      // }
+    },
+    []
+  );
+
   return (
-    <div className="select-none">
+    <div className="select-none" ref={componentRef} onClick={onClick}>
       <SelectionArea
         className={cn("h-full w-full", className)}
         selectables=".selectable"

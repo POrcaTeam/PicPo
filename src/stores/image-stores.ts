@@ -16,6 +16,8 @@ export type ImageStates = {
   progress: number | undefined;
   // 被选中的图片
   selectedImages: Array<string>;
+  // 过滤后的图片集合
+  filterImages: Record<string, ImageEntry>;
 };
 
 export type ActionStates = {
@@ -29,6 +31,10 @@ export type ActionStates = {
   setProgress: (p: number) => void;
   // 选中图片
   selectImage: (imageIds: Array<string>) => void;
+  // 新增选中图片
+  addSelectImage: (imageIds: Array<string>) => void;
+  // 取消选中图片
+  removeSelectImage: (imageIds: Array<string>) => void;
   // 取消选中图片
   unSelectImage: (imageIds: Array<string>) => void;
   // 清空选中的图片
@@ -37,6 +43,8 @@ export type ActionStates = {
   selectAll: () => void;
   // 获得选中的图片实例
   getSelectedImages: () => Array<ImageEntry>;
+  // 设置过滤后的数据
+  setFilterImages: (images: Record<string, ImageEntry>) => void;
 };
 
 export type ImageStore = ImageStates & Partial<ActionStates>;
@@ -48,6 +56,7 @@ export const initImageStore = (): ImageStore => {
     allFrames: 0,
     progress: undefined,
     selectedImages: [],
+    filterImages: {},
   };
 };
 
@@ -166,6 +175,26 @@ const useImageStoreBase = create<ImageStore>()(
         draft.selectedImages = filterResult;
       });
     },
+    addSelectImage: (imageIds) => {
+      const images = get().images;
+      const filterResult = imageIds.filter((id) => {
+        return images[id];
+      });
+      set((draft) => {
+        draft.selectedImages = [...union(draft.selectedImages, filterResult)];
+      });
+    },
+    removeSelectImage: (imageIds) => {
+      const images = get().images;
+      const filterResult = imageIds.filter((id) => {
+        return images[id];
+      });
+      set((draft) => {
+        draft.selectedImages = [
+          ...difference(draft.selectedImages, filterResult),
+        ];
+      });
+    },
     unSelectImage: (imageIds) => {
       set((draft) => {
         draft.selectedImages = difference(draft.selectedImages, imageIds);
@@ -189,6 +218,11 @@ const useImageStoreBase = create<ImageStore>()(
         images,
         (_image, key) => selectedImages.indexOf(key) !== -1
       );
+    },
+    setFilterImages: (images) => {
+      set((draft) => {
+        draft.filterImages = images;
+      });
     },
   }))
 );

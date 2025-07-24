@@ -4,11 +4,11 @@ import { Image } from "./components/image";
 import React from "react";
 
 export const Category = React.memo(({ categoryId }: { categoryId: string }) => {
-  const images = useImageStore((store) => store.images);
+  const images = useImageStore((store) => store.filterImages);
   return (
     <div>
-      {categoryId === "primary" && (
-        <div className="grid grid-cols-2 gap-2 mt-1">
+      {categoryId === "main" && (
+        <div className="grid grid-cols-2 gap-2 mt-[10px]">
           {map(images, (image, key) => {
             if (image.categorize === "main") {
               return (
@@ -24,7 +24,7 @@ export const Category = React.memo(({ categoryId }: { categoryId: string }) => {
         </div>
       )}
       {categoryId === "icon" && (
-        <div className="grid grid-cols-[repeat(5,minmax(70px,1fr))] gap-2 mt-1 max-[430px]:grid-cols-[repeat(4,minmax(70px,1fr))]">
+        <div className="grid grid-cols-[repeat(5,minmax(70px,1fr))] gap-2 mt-[10px] max-[430px]:grid-cols-[repeat(4,minmax(70px,1fr))]">
           {map(images, (image, key) => {
             if (image.categorize === "icon") {
               return (
@@ -39,8 +39,8 @@ export const Category = React.memo(({ categoryId }: { categoryId: string }) => {
           })}
         </div>
       )}
-      {categoryId !== "primary" && categoryId !== "icon" && (
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 mt-1">
+      {categoryId !== "main" && categoryId !== "icon" && (
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 mt-[10px]">
           {map(images, (image, key) => {
             if (image.categorize === "other") {
               return (

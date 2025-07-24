@@ -269,3 +269,46 @@ export function mapObjectToArray<T extends Record<string, any>, R>(
     ])
   ) as Record<keyof T, R>;
 }
+
+/**
+ * 获取当前页面的域名（不含子路径、端口）
+ * @param url - 完整页面 URL
+ * @returns 域名字符串
+ */
+function getDomainFromUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    return u.hostname.replace(/^www\./i, "");
+  } catch (e) {
+    console.error("无效 URL：", url);
+    return "unknown_domain";
+  }
+}
+
+/**
+ * 将 Date 对象格式化为字符串：yyyyMMdd_HHmmss
+ * @param date - 日期对象
+ * @returns 格式化字符串
+ */
+function formatTimestamp(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const yyyy = date.getFullYear();
+  const MM = pad(date.getMonth() + 1);
+  const dd = pad(date.getDate());
+  const hh = pad(date.getHours());
+  const mm = pad(date.getMinutes());
+  const ss = pad(date.getSeconds());
+  return `${yyyy}${MM}${dd}_${hh}${mm}${ss}`;
+}
+
+/**
+ * 生成默认压缩包文件名。
+ * 结构示例：example.com_20250723_143512.zip
+ * @param pageUrl - 当前标签页 URL
+ * @returns 默认文件名
+ */
+export function generateDefaultZipName(pageUrl: string): string {
+  const domain = getDomainFromUrl(pageUrl);
+  const timestamp = formatTimestamp(new Date());
+  return `${domain}_${timestamp}`;
+}

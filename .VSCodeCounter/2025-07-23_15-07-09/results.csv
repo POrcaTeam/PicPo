@@ -1,0 +1,90 @@
+"filename", "language", "JSON", "TypeScript JSX", "PostCSS", "HTML", "TypeScript", "SCSS", "JSON with Comments", "Markdown", "XML", "YAML", "comment", "blank", "total"
+"/Users/thoulappea/Documents/picorca/picorca-extension/.github/ISSUE_TEMPLATE/bug_report.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 0, 9, 34
+"/Users/thoulappea/Documents/picorca/picorca-extension/.github/dependabot.yml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 4, 2, 12
+"/Users/thoulappea/Documents/picorca/picorca-extension/.github/stale.yml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 6, 0, 17
+"/Users/thoulappea/Documents/picorca/picorca-extension/.github/workflows/ci.yml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 0, 6, 33
+"/Users/thoulappea/Documents/picorca/picorca-extension/README.md", "Markdown", 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 39, 182
+"/Users/thoulappea/Documents/picorca/picorca-extension/components.json", "JSON", 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21
+"/Users/thoulappea/Documents/picorca/picorca-extension/custom-vite-plugins.ts", "TypeScript", 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 2, 4, 56
+"/Users/thoulappea/Documents/picorca/picorca-extension/manifest.dev.json", "JSON", 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 18
+"/Users/thoulappea/Documents/picorca/picorca-extension/manifest.json", "JSON", 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 59
+"/Users/thoulappea/Documents/picorca/picorca-extension/nodemon.chrome.json", "JSON", 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19
+"/Users/thoulappea/Documents/picorca/picorca-extension/nodemon.firefox.json", "JSON", 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19
+"/Users/thoulappea/Documents/picorca/picorca-extension/package.json", "JSON", 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 71
+"/Users/thoulappea/Documents/picorca/picorca-extension/pnpm-lock.yaml", "YAML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 4705, 0, 1168, 5873
+"/Users/thoulappea/Documents/picorca/picorca-extension/public/contentStyle.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/thoulappea/Documents/picorca/picorca-extension/public/favicon.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 115, 0, 0, 0, 115
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/assets/img/favicon.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 115, 0, 0, 0, 115
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/assets/img/logo.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 1, 8
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/assets/styles/tailwind.css", "PostCSS", 0, 0, 123, 0, 0, 0, 0, 0, 0, 0, 0, 7, 130
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/classify.ts", "TypeScript", 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 4, 5, 30
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/collector.ts", "TypeScript", 0, 0, 0, 0, 478, 0, 0, 0, 0, 0, 58, 68, 604
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/button.tsx", "TypeScript JSX", 0, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 60
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/checkbox.tsx", "TypeScript JSX", 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 31
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/dialog.tsx", "TypeScript JSX", 0, 129, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 142
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/dropdown-menu.tsx", "TypeScript JSX", 0, 238, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 256
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/input.tsx", "TypeScript JSX", 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 22
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/label.tsx", "TypeScript JSX", 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 23
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/progress.tsx", "TypeScript JSX", 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 30
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/select.tsx", "TypeScript JSX", 0, 177, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 190
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/components/ui/separator.tsx", "TypeScript JSX", 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 27
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/convert.ts", "TypeScript", 0, 0, 0, 0, 461, 0, 0, 0, 0, 0, 95, 55, 611
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/global.d.ts", "TypeScript", 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 4, 14
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/lib/hooks/useAsyncMemo.ts", "TypeScript", 0, 0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 4, 21
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/lib/utils.ts", "TypeScript", 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 2, 7
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/locales/en/messages.json", "JSON", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/download.ts", "TypeScript", 0, 0, 0, 0, 97, 0, 0, 0, 0, 0, 18, 15, 130
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/index.ts", "TypeScript", 0, 0, 0, 0, 114, 0, 0, 0, 0, 0, 13, 11, 138
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/rules.ts", "TypeScript", 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 18, 11, 129
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/background/zip.ts", "TypeScript", 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 6
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/content/content.tsx", "TypeScript JSX", 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 10
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/content/index.tsx", "TypeScript JSX", 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 22
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/content/style.css", "PostCSS", 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/devtools/index.html", "HTML", 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 1, 11
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/devtools/index.ts", "TypeScript", 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 2, 8
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/Newtab.css", "PostCSS", 0, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 6, 39
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/Newtab.tsx", "TypeScript JSX", 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 25
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/index.css", "PostCSS", 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 2, 14
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/index.html", "HTML", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/newtab/index.tsx", "TypeScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/Options.css", "PostCSS", 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 1, 9
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/Options.tsx", "TypeScript JSX", 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/index.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/index.html", "HTML", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/options/index.tsx", "TypeScript JSX", 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 14
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/Panel.css", "PostCSS", 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/Panel.tsx", "TypeScript JSX", 0, 110, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 130
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/category.tsx", "TypeScript JSX", 0, 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 61
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/action.tsx", "TypeScript JSX", 0, 121, 0, 0, 0, 0, 0, 0, 0, 0, 8, 9, 138
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/filter.tsx", "TypeScript JSX", 0, 221, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, 233
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/image-selection.module.scss", "SCSS", 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 2, 16
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/image-selection.tsx", "TypeScript JSX", 0, 114, 0, 0, 0, 0, 0, 0, 0, 0, 21, 18, 153
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/image.tsx", "TypeScript JSX", 0, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 66
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/list.tsx", "TypeScript JSX", 0, 129, 0, 0, 0, 0, 0, 0, 0, 0, 2, 10, 141
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/progress.tsx", "TypeScript JSX", 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 37
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/components/save-dialog.tsx", "TypeScript JSX", 0, 112, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 126
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/err.tsx", "TypeScript JSX", 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 11
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/index.css", "PostCSS", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/index.html", "HTML", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/index.tsx", "TypeScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/communicate.ts", "TypeScript", 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 15, 10, 103
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/download.ts", "TypeScript", 0, 0, 0, 0, 36, 0, 0, 0, 0, 0, 3, 3, 42
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/panel/inject/zip.tsx", "TypeScript JSX", 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 35
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/Popup.tsx", "TypeScript JSX", 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 29
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/index.css", "PostCSS", 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/index.html", "HTML", 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 2, 13
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/pages/popup/index.tsx", "TypeScript JSX", 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 15
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/stores/filter-store.ts", "TypeScript", 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 0, 10, 77
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/stores/image-stores.ts", "TypeScript", 0, 0, 0, 0, 190, 0, 0, 0, 0, 0, 36, 21, 247
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/utils/fetch.ts", "TypeScript", 0, 0, 0, 0, 55, 0, 0, 0, 0, 0, 1, 7, 63
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/utils/port.ts", "TypeScript", 0, 0, 0, 0, 74, 0, 0, 0, 0, 0, 50, 9, 133
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/utils/size.ts", "TypeScript", 0, 0, 0, 0, 157, 0, 0, 0, 0, 0, 16, 24, 197
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/utils/types.ts", "TypeScript", 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 5, 55
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/utils/utils.ts", "TypeScript", 0, 0, 0, 0, 311, 0, 0, 0, 0, 0, 0, 4, 315
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/utils/worker-zip.ts", "TypeScript", 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 3, 3, 30
+"/Users/thoulappea/Documents/picorca/picorca-extension/src/vite-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"/Users/thoulappea/Documents/picorca/picorca-extension/tsconfig.json", "JSON with Comments", 0, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 1, 34
+"/Users/thoulappea/Documents/picorca/picorca-extension/vite.config.base.ts", "TypeScript", 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 4, 5, 74
+"/Users/thoulappea/Documents/picorca/picorca-extension/vite.config.chrome.ts", "TypeScript", 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 2, 31
+"/Users/thoulappea/Documents/picorca/picorca-extension/vite.config.firefox.ts", "TypeScript", 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 3, 32
+"Total", "-", 212, 1835, 194, 54, 2527, 14, 33, 168, 237, 4749, 402, 1730, 12155

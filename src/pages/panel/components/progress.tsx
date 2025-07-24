@@ -23,7 +23,7 @@ export const Progress = () => {
   return (
     <div
       className={cn(
-        "w-full flex my-[10px] bg-white items-center px-2",
+        "w-full flex my-[10px] mb-[5px] bg-white items-center px-2",
         percent === 100 && "hidden"
       )}
     >

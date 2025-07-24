@@ -1,7 +1,6 @@
 // 图片分类
 export function classifyImage(image: ImageEntry): "main" | "icon" | "other" {
   const ext = image.filename?.toLowerCase();
-  console.warn(image, ext);
   let isRaster = false;
   let isSvg = false;
   if (ext) {

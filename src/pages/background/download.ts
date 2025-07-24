@@ -32,25 +32,26 @@ const DEFAULT_DOWNLOAD_OPTION: IDownloadOption = {
 
 // 下载数据方法
 export const downloadImages = (request: RequestData) => {
-  const { option } = request;
+  return new Promise((resolve) => {
+    const { option } = request;
 
-  const assignOption = { ...DEFAULT_DOWNLOAD_OPTION, ...option };
-  perform(request, (filename, image) => {
-    return nativeDownload({
-      url: image.src,
-      filename: image.filename,
-      conflictAction: "uniquify",
-      saveAs: false,
+    const assignOption = { ...DEFAULT_DOWNLOAD_OPTION, ...option };
+    perform(request, (filename, image) => {
+      return nativeDownload({
+        url: image.src,
+        filename: image.filename,
+        conflictAction: "uniquify",
+        saveAs: false,
+      });
+    }).then((es) => {
+      resolve(es);
     });
-  }).then((es) => {
-    console.log(es);
-    // todo
   });
 };
 
-const perform = async (
+export const perform = async (
   request: RequestData,
-  one: (filename: string, image: ImageEntry) => Promise<number>
+  callback: (filename: string, image: ImageEntry) => Promise<number>
 ): Promise<void> => {
   const indices: Record<string, number> = {};
 
@@ -95,7 +96,7 @@ const perform = async (
           }
         }
 
-        await one(filename, image);
+        await callback(filename, image);
       })
     );
 
@@ -111,7 +112,7 @@ const perform = async (
  * @param filename
  * @returns
  */
-const nativeDownload = (
+export const nativeDownload = (
   options: chrome.downloads.DownloadOptions,
   filename = "images.zip"
 ): Promise<number> =>
