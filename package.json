@@ -1,11 +1,11 @@
 {
-  "name": "vite-web-extension",
-  "version": "1.4.0",
-  "description": "A simple chrome & firefox extension template with Vite, React, TypeScript and Tailwind CSS.",
+  "name": "picpo",
+  "version": "1.35",
+  "description": "Picpo is a web resource scraping tool that makes it easy to collect materials in the browser and save them to Picorca",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JohnBra/vite-web-extension.git"
+    "url": "https://github.com/POrcaTeam/picorca-extension.git"
   },
   "scripts": {
     "build": "vite build --config vite.config.chrome.ts",
@@ -28,6 +28,7 @@
     "@viselect/react": "^3.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cropperjs": "^2.0.0",
     "es-toolkit": "^1.39.7",
     "filesize": "^11.0.1",
     "immer": "^10.1.1",

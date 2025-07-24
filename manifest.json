@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.35alpha",
+  "version": "1.35",
   "name": "Picpo",
   "description": "__MSG_extension_description__",
   "default_locale": "en", 

@@ -43,9 +43,6 @@ export const List: React.FC<{
       removeSelectImage: store.removeSelectImage,
     }))
   );
-  const onScreenShoot = () => {
-    chrome.runtime.sendMessage({ cmd: "screenshot" });
-  };
 
   const selectionRef = useRef<ImageFunction>(null);
   useImperativeHandle(
@@ -68,7 +65,6 @@ export const List: React.FC<{
   ) => {
     console.log(message);
     if (message.cmd === "clear") {
-      alert(123);
     }
   };
   useEffect(() => {

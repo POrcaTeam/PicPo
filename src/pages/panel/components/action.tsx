@@ -19,6 +19,8 @@ import { ICommunication } from "../inject/communicate";
 import { SaveDialog, SaveDialogFunction } from "./save-dialog";
 import { useI18n } from "@src/lib/hooks/useI18n";
 
+import CutImg from "@assets/img/icon_JT.svg";
+
 export const Action = (props: {
   onCheckedChange: (checked: boolean) => void;
   // 消息发送实例，可以往任意iframe发送消息，为惰性实例，需要主动调用使用
@@ -45,6 +47,10 @@ export const Action = (props: {
     }
     props.onCheckedChange(e as boolean);
   }, []);
+
+  const onScreenShot = () => {
+    chrome.runtime.sendMessage({ cmd: "screenshot" });
+  };
 
   /**
    * 调用chrome方法直接下载数据
@@ -98,11 +104,17 @@ export const Action = (props: {
           </Label>
         </div>
         <div id="action_panel" className="flex-1"></div>
-        <Button size="icon" className="cursor-pointer size-8"></Button>
+        <Button
+          size="icon"
+          className="cursor-pointer size-8"
+          onClick={onScreenShot}
+        >
+          <img src={CutImg} alt="ScreenShot" />
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button
-              // disabled={selectedImages.length === 0 || disabledDownload}
+              disabled={selectedImages.length === 0 || disabledDownload}
               size="icon"
               className="cursor-pointer size-8"
             >

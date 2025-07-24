@@ -105,13 +105,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // 功能性请求消息
-const command = (message: any, sendResponse: (response?: any) => void) => {
+const command = async (
+  message: any,
+  sendResponse: (response?: any) => void
+) => {
   let windowId = undefined;
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs[0]) {
-      windowId = tabs[0].windowId;
-    }
-  });
+  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (tabs[0]) {
+    windowId = tabs[0].windowId;
+  }
   // 绑定截图事件
   if (message.cmd === "screenshot") {
     if (windowId) {
