@@ -17,6 +17,7 @@ import {
 } from "@src/components/ui/dropdown-menu";
 import { ICommunication } from "../inject/communicate";
 import { SaveDialog, SaveDialogFunction } from "./save-dialog";
+import { useI18n } from "@src/lib/hooks/useI18n";
 
 export const Action = (props: {
   onCheckedChange: (checked: boolean) => void;
@@ -29,6 +30,7 @@ export const Action = (props: {
       images: store.images,
     }))
   );
+  const t = useI18n();
 
   const checked = useMemo(
     () => selectedImages.length === Object.keys(images).length,
@@ -78,11 +80,10 @@ export const Action = (props: {
     <div className="flex flex-col flex-nowrap my-2">
       <div className="flex flex-row flex-1 items-center space-x-2 my-4">
         <div className="text-sm flex-1 text-[#363636]">
-          发现 <span className="mx-0.5">{size(images)}</span>
-          <span>张图片</span>
-          <span>,</span>
-          <span>已选中</span>
-          <span className="mx-0.5">{selectedImages.length || 0} 张</span>
+          {t("image_summary", [
+            String(size(images)),
+            String(selectedImages.length || 0),
+          ])}
         </div>
       </div>
       <div className="flex flex-row flex-1 items-center space-x-2 px-2">
@@ -93,7 +94,7 @@ export const Action = (props: {
             onCheckedChange={onCheckedChange}
           />
           <Label htmlFor="selectAll" className="text-[#111111] text-sm">
-            全选
+            {t("select_all")}
           </Label>
         </div>
         <div id="action_panel" className="flex-1"></div>
@@ -113,7 +114,7 @@ export const Action = (props: {
               onClick={onDownload}
               disabled={selectedImages.length === 0 || disabledDownload}
             >
-              下载图片到本地
+              {t("download_images")}
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={() => {
@@ -121,7 +122,7 @@ export const Action = (props: {
               }}
               disabled={selectedImages.length === 0 || disabledDownload}
             >
-              压缩下载到本地
+              {t("download_zip")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

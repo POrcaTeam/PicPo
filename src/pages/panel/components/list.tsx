@@ -1,30 +1,30 @@
 import { useRef, useEffect, useImperativeHandle, useCallback } from "react";
+import { useShallow } from "zustand/shallow";
+import { keys } from "es-toolkit/compat";
 
 import { Checkbox } from "@src/components/ui/checkbox";
-import { ImageFunction, Selection } from "./image-selection";
 import { Label } from "@src/components/ui/label";
-import { cn } from "@src/lib/utils";
-import { Category } from "../category";
 import { useImageStore } from "@src/stores/image-stores";
-import { filter, keys, map } from "es-toolkit/compat";
-import { useShallow } from "zustand/shallow";
+import { cn } from "@src/lib/utils";
+import { ImageFunction, Selection } from "./image-selection";
+import { Category } from "../category";
 
 const CATEGORIZE = [
   {
     id: "capture",
-    name: "捕获",
+    name: chrome.i18n.getMessage("list_capture"),
   },
   {
     id: "main",
-    name: "主图",
+    name: chrome.i18n.getMessage("list_main"),
   },
   {
     id: "icon",
-    name: "图标",
+    name: chrome.i18n.getMessage("list_icon"),
   },
   {
     id: "others",
-    name: "其他",
+    name: chrome.i18n.getMessage("list_others"),
   },
 ];
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
+import { X } from "lucide-react";
 
 import {
   Select,
@@ -12,8 +13,8 @@ import {
 } from "@src/components/ui/select";
 import { IShape, ISize, IType, useFilterStore } from "@src/stores/filter-store";
 import { useImageStore } from "@src/stores/image-stores";
-import { X } from "lucide-react";
 import { Button } from "@src/components/ui/button";
+import { useI18n } from "@src/lib/hooks/useI18n";
 
 const regex = {
   PNG: /\/png$/i,
@@ -37,6 +38,7 @@ export const Filter = () => {
   const { shape, size, type, setShape, setSize, setType } = useFilterStore(
     useShallow((store) => store)
   );
+  const t = useI18n();
 
   useEffect(() => {
     const images = useImageStore.getState().images;
@@ -95,7 +97,6 @@ export const Filter = () => {
     setFilterImages?.(filtered);
   }, [shape, size, type, images]);
 
-  const [sizeOpen, setSizeOpenOpen] = useState(false);
   return (
     <div className="flex flex-row flex-nowrap space-x-2">
       <Select
@@ -105,7 +106,7 @@ export const Filter = () => {
         }}
       >
         <SelectTrigger size="sm" className="w-auto flex-1 !text-[#111111]">
-          <SelectValue placeholder="图象尺寸" />
+          <SelectValue placeholder={t("image_size_placeholder")} />
           {size && (
             <Button
               className="p-0 size-5 cursor-pointer pointer-events-auto mx-[-5px]"
@@ -122,15 +123,15 @@ export const Filter = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>图像尺寸</SelectLabel>
+            <SelectLabel>{t("image_size_placeholder")}</SelectLabel>
             <SelectItem value="small" aria-label="small">
-              小
+              {t("image_size_small")}
             </SelectItem>
             <SelectItem value="medium" aria-label="medium">
-              中
+              {t("image_size_medium")}
             </SelectItem>
             <SelectItem value="large" aria-label="large">
-              大
+              {t("image_size_large")}
             </SelectItem>
           </SelectGroup>
         </SelectContent>
@@ -142,7 +143,7 @@ export const Filter = () => {
         }}
       >
         <SelectTrigger size="sm" className="w-auto flex-1 !text-[#111111]">
-          <SelectValue placeholder="图片类型" />
+          <SelectValue placeholder={t("image_type")} />
           {type && (
             <Button
               className="p-0 size-5 cursor-pointer pointer-events-auto mx-[-5px]"
@@ -159,7 +160,7 @@ export const Filter = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>图片类型</SelectLabel>
+            <SelectLabel>{t("image_type")}</SelectLabel>
             <SelectItem value="JPG" aria-label="JPG">
               JPG
             </SelectItem>
@@ -197,7 +198,7 @@ export const Filter = () => {
         }}
       >
         <SelectTrigger size="sm" className="w-auto flex-1 !text-[#111111]">
-          <SelectValue placeholder="图像形状" />
+          <SelectValue placeholder={t("image_shape")} />
           {shape && (
             <Button
               className="p-0 size-5 cursor-pointer pointer-events-auto mx-[-5px]"
@@ -214,15 +215,15 @@ export const Filter = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>图像形状</SelectLabel>
+            <SelectLabel>{t("image_shape")}</SelectLabel>
             <SelectItem value="square" aria-label="square">
-              方图
+              {t("Square")}
             </SelectItem>
             <SelectItem value="wide" aria-label="wide">
-              宽图
+              {t("Wide")}
             </SelectItem>
             <SelectItem value="rectangle" aria-label="rectangle">
-              长图
+              {t("Tall")}
             </SelectItem>
           </SelectGroup>
         </SelectContent>

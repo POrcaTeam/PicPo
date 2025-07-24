@@ -1,7 +1,9 @@
 {
   "manifest_version": 3,
+  "version": "0.35alpha",
   "name": "Picpo",
-  "description": "download images from any website",
+  "description": "__MSG_extension_description__",
+  "default_locale": "en", 
   "options_ui": {
     "page": "src/pages/options/index.html"
   },

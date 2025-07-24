@@ -1,0 +1,43 @@
+{
+  "extName": {
+    "message": "Picpo",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "轻松从任何网站下载图片，保存到 Picorca",
+    "description": "Extension description"
+  },
+  "image_summary": {
+    "message": "发现 $1 张图片，已选中 $2 张",
+    "placeholders": {
+      "num_images": {
+        "content": "$1"
+      },
+      "selected_images": {
+        "content": "$2"
+      }
+    }
+  },
+  "list_capture": { "message": "截图" },
+  "list_main": { "message": "主图" },
+  "list_icon": { "message": "图标" },
+  "list_others": { "message": "其他" },
+  "select_all": { "message": "全选" },
+  "image_size_placeholder": { "message": "图像尺寸" },
+  "image_size_small": { "message": "小" },
+  "image_size_medium": { "message": "中" },
+  "image_size_large": { "message": "大" },
+  "image_type": { "message": "类型" },
+  "image_shape": { "message": "形状" },
+  "square": { "message": "方图" },
+  "wide": { "message": "宽图" },
+  "rectangle": { "message": "长图" },
+  "dialog_title": { "message": "保存数据为 ZIP" },
+  "dialog_description": { "message": "请输入压缩包名称" },
+  "zip_label": { "message": "压缩包名称" },
+  "cancel": { "message": "取消" },
+  "download": { "message": "下载" },
+  "download_images": { "message": "下载图片到本地" },
+  "download_zip": { "message": "压缩下载到本地" },
+  "collecting": { "message": "正在收集..." }
+}

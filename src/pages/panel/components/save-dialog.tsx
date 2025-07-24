@@ -5,6 +5,7 @@ import {
   useImperativeHandle,
   useState,
 } from "react";
+import { useShallow } from "zustand/shallow";
 
 import { Button } from "@src/components/ui/button";
 import {
@@ -24,9 +25,9 @@ import { useImageStore } from "@src/stores/image-stores";
 import { perform } from "@src/pages/background/download";
 import { getImageFromPage } from "../inject/download";
 import { ICommunication } from "../inject/communicate";
-import { useShallow } from "zustand/shallow";
 import { generateDefaultZipName } from "@src/utils/utils";
 import { cn } from "@src/lib/utils";
+import { useI18n } from "@src/lib/hooks/useI18n";
 
 export type ISaveDialog = {
   communication: React.RefObject<ICommunication>;
@@ -53,6 +54,7 @@ export const SaveDialog: React.FC<PropsWithChildren<ISaveDialog>> = ({
       selectedImages: store.selectedImages,
     }))
   );
+  const t = useI18n();
   const { zip, completeCount } = useWorkerZip();
 
   useImperativeHandle(
@@ -101,12 +103,10 @@ export const SaveDialog: React.FC<PropsWithChildren<ISaveDialog>> = ({
   const onZipDownload = useCallback(async () => {
     // 获得当前已选中的images
     const selectedImages = useImageStore.getState().getSelectedImages?.();
-    debugger;
     if (selectedImages && selectedImages.length > 0) {
       setDisabledDownload(true);
       zip.current?.postMessage(["start"]);
       await perform({ images: selectedImages }, async (filename, image) => {
-        debugger;
         let content;
         try {
           content = await getImageFromPage(communication.current, image);
@@ -116,7 +116,6 @@ export const SaveDialog: React.FC<PropsWithChildren<ISaveDialog>> = ({
           ]).arrayBuffer();
           filename += ".txt";
         }
-        debugger;
         const unit = new Uint8Array(content);
         zip.current?.postMessage(["addImage", filename, unit]);
         return 0;
@@ -149,12 +148,12 @@ export const SaveDialog: React.FC<PropsWithChildren<ISaveDialog>> = ({
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>保存数据为zip</DialogTitle>
-          <DialogDescription>请设置压缩包的名称</DialogDescription>
+          <DialogTitle>{t("dialog_title")}</DialogTitle>
+          <DialogDescription>{t("dialog_description")}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
           <div className="grid gap-3">
-            <Label htmlFor="zip-name">压缩包名称</Label>
+            <Label htmlFor="zip-name">{t("zip_label")}</Label>
             <Input
               id="zip-name"
               name="name"
@@ -174,10 +173,10 @@ export const SaveDialog: React.FC<PropsWithChildren<ISaveDialog>> = ({
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">取消</Button>
+            <Button variant="outline">{t("cancel")}</Button>
           </DialogClose>
           <Button disabled={saveFileName.length === 0} onClick={onSubmit}>
-            下载
+            {t("download")}
           </Button>
         </DialogFooter>
       </DialogContent>

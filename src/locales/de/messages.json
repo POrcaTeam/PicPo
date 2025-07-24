@@ -1,0 +1,43 @@
+{
+  "extName": {
+    "message": "Picpo",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Bilder einfach von jeder Website herunterladen und in Picorca speichern",
+    "description": "Extension description"
+  },
+  "image_summary": {
+    "message": "$1 Bilder gefunden, $2 ausgewählt",
+    "placeholders": {
+      "num_images": {
+        "content": "$1"
+      },
+      "selected_images": {
+        "content": "$2"
+      }
+    }
+  },
+  "list_capture": { "message": "Screenshot" },
+  "list_main": { "message": "Hauptbild" },
+  "list_icon": { "message": "Icon" },
+  "list_others": { "message": "Andere" },
+  "select_all": { "message": "Alle auswählen" },
+  "image_size_placeholder": { "message": "Größe" },
+  "image_size_small": { "message": "Klein" },
+  "image_size_medium": { "message": "Mittel" },
+  "image_size_large": { "message": "Groß" },
+  "image_type": { "message": "Typ" },
+  "image_shape": { "message": "Form" },
+  "square": { "message": "Quadratisch" },
+  "wide": { "message": "Breit" },
+  "rectangle": { "message": "Hochformat" },
+  "dialog_title": { "message": "Daten als ZIP speichern" },
+  "dialog_description": { "message": "Bitte ZIP-Dateinamen eingeben" },
+  "zip_label": { "message": "ZIP-Dateiname" },
+  "cancel": { "message": "Abbrechen" },
+  "download": { "message": "Herunterladen" },
+  "download_images": { "message": "Bilder lokal herunterladen" },
+  "download_zip": { "message": "Als ZIP herunterladen" },
+  "collecting": { "message": "Wird gesammelt..." }
+}

@@ -9,7 +9,6 @@ export const getImageFromPage = (
   o: ImageEntry
 ): Promise<ArrayBuffer> => {
   return new Promise((resolve, reject) => {
-    debugger;
     // 生成uid,当图片获取成功后调取此uid所指向的方法
     const uid = Math.random();
     if (isNumber(o.frameId)) {

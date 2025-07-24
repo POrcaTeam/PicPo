@@ -1,8 +1,10 @@
 import { useMemo } from "React";
+import { useShallow } from "zustand/shallow";
+
 import { Progress as ProgressBar } from "@src/components/ui/progress";
 import { useImageStore } from "@src/stores/image-stores";
-import { useShallow } from "zustand/shallow";
 import { cn } from "@src/lib/utils";
+import { useI18n } from "@src/lib/hooks/useI18n";
 
 export const Progress = () => {
   const { allLinks, progress } = useImageStore(
@@ -11,6 +13,7 @@ export const Progress = () => {
       progress: store.progress,
     }))
   );
+  const t = useI18n();
 
   const percent = useMemo(() => {
     const p = progress ? progress : 0;
@@ -30,7 +33,7 @@ export const Progress = () => {
       <div className="flex-1">
         <ProgressBar value={percent} className="w-full" />
       </div>
-      <div className="flex-none ml-2 text-[#111111]">加载中...</div>
+      <div className="flex-none ml-2 text-[#111111]">{t("collecting")}</div>
     </div>
   );
 };

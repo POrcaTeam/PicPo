@@ -22,9 +22,10 @@ export const Image = ({
     <div
       data-key={id}
       className={cn(
-        "relative selectable bg-gray-200 h-auto flex flex-col items-center justify-center rounded-md transition-shadow duration-100 hover:shadow-[0px_0px_6px_2px_#89F384] cursor-pointer group mb-6",
+        "relative selectable bg-gray-200 h-auto flex flex-col items-center justify-center rounded-md transition-shadow duration-100 hover:shadow-[0px_0px_6px_2px_#89F384] cursor-pointer group",
         isSelected ? "shadow-[0px_0px_6px_2px_#89F384]" : "",
-        category === "main" ? "h-30" : "aspect-square"
+        category === "main" ? "h-30" : "aspect-square",
+        (category === "main" || category === "capture") && "mb-6"
       )}
       data-select-muti
     >
@@ -59,7 +60,12 @@ export const Image = ({
         )}
         data-select-muti
       />
-      <div className="w-full absolute bottom-[-20px]">
+      <div
+        className={cn(
+          "w-full absolute bottom-[-20px] hidden",
+          (category === "main" || category === "capture") && "block"
+        )}
+      >
         <div className="text-[#3b3b3b]">
           {image.width} X {image.height}
         </div>
