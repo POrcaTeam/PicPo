@@ -110,9 +110,11 @@ const command = async (
   sendResponse: (response?: any) => void
 ) => {
   let windowId = undefined;
+  let tabId = undefined;
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
   if (tabs[0]) {
     windowId = tabs[0].windowId;
+    tabId = tabs[0].id;
   }
   // 绑定截图事件
   if (message.cmd === "screenshot") {

@@ -41,7 +41,7 @@ export const Image = ({
       </div>
       <div
         className={cn(
-          "absolute top-2 left-2 text-sm text-white flex flex-col space-y-2"
+          "absolute top-2 left-2 text-sm text-white flex flex-col space-y-2 z-[1]"
         )}
         data-select-muti
       >

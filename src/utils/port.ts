@@ -9,7 +9,6 @@ import "./size";
   });
   // 当插件窗口关闭时禁用数据收集
   connect.onDisconnect.addListener((request) => {
-    console.log(request);
     try {
       console.debug(request.sender?.frameId + "lost connection");
       window.collector.active = false;

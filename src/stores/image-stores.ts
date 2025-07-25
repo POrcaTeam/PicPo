@@ -5,6 +5,25 @@ import { filter, map } from "es-toolkit/compat";
 import { Utils } from "@src/utils/utils";
 import { classifyImage } from "@src/classify";
 
+function renameBinFile(filename: string, mimeType: string): string {
+  // 只有以 .bin 结尾才处理
+  if (!filename.toLowerCase().endsWith(".bin")) {
+    return filename;
+  }
+
+  // 提取 mimeType 的子类型作为后缀，比如 image/jpeg => jpeg
+  const parts = mimeType.split("/");
+  if (parts.length !== 2) {
+    return filename; // MIME 类型格式无效，返回原始文件名
+  }
+
+  const extension = parts[1];
+  // 替换掉 .bin 为正确扩展名
+  const newFilename = filename.slice(0, -4) + "." + extension;
+
+  return newFilename;
+}
+
 export type ImageStates = {
   // 所有检测到的links 数量
   allLinks: number;
@@ -130,7 +149,9 @@ const useImageStoreBase = create<ImageStore>()(
             "", // 生成文件名规则
             true
           );
-          image.filename = filename;
+
+          // 有些网站文件名为.bin格式,还原为文件类型后缀
+          image.filename = renameBinFile(filename, image.type);
           guessName = name;
         }
         // 加入时去重复

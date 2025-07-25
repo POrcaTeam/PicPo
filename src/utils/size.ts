@@ -78,12 +78,38 @@
 
   // WEBP
   type.webp = (uint8a: Uint8Array): boolean => {
-    const b = String.fromCharCode(...uint8a.slice(0, 16));
-    return (
-      b.slice(0, 4) === "RIFF" &&
-      b.slice(8, 12) === "WEBP" &&
-      b.slice(12, 15) === "VP8"
+    // 检查长度
+    if (uint8a.length < 16) return false;
+
+    // 检查 "RIFF"
+    if (
+      uint8a[0] !== 0x52 || // R
+      uint8a[1] !== 0x49 || // I
+      uint8a[2] !== 0x46 || // F
+      uint8a[3] !== 0x46 // F
+    ) {
+      return false;
+    }
+
+    // 检查 "WEBP"
+    if (
+      uint8a[8] !== 0x57 || // W
+      uint8a[9] !== 0x45 || // E
+      uint8a[10] !== 0x42 || // B
+      uint8a[11] !== 0x50 // P
+    ) {
+      return false;
+    }
+
+    // 检查 VP8 / VP8L / VP8X
+    const format = String.fromCharCode(
+      uint8a[12],
+      uint8a[13],
+      uint8a[14],
+      uint8a[15]
     );
+
+    return format === "VP8 " || format === "VP8L" || format === "VP8X";
   };
 
   size.webp = (uint8a: Uint8Array): ImageSize | undefined => {
