@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { filesize } from "filesize";
 
 import { cn } from "@src/lib/utils";
 import { useImageStore } from "@src/stores/image-stores";
 
 import SelectImg from "@assets/img/select.svg";
+import { getImageFromPage } from "../inject/download";
+import { connStore } from "@src/stores/conn-store";
 
 export const Image = ({
   image,
@@ -20,6 +22,46 @@ export const Image = ({
   const isSelected = useMemo(() => {
     return selectedImages.indexOf(id) !== -1;
   }, [id, selectedImages]);
+
+  const aspect = useMemo(() => {
+    const aspect = (image.width || 0) / (image.height || 0.1);
+
+    return aspect;
+  }, [image]);
+
+  const [url, setUrl] = useState(() => image.src);
+  const [size, setSize] = useState(() => image.size);
+
+  const errorRef = useRef(0);
+  // 文件下载失败从源内重新请求
+  const onError = useCallback(
+    async (_event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      if (errorRef.current === 2) {
+        return;
+      }
+      errorRef.current = errorRef.current + 1;
+      const content = await getImageFromPage(
+        connStore.getState().communicationRef?.current,
+        image
+      );
+      if (content.byteLength > 0) {
+        const unit = new Uint8Array(content);
+        const blob = new Blob([unit], { type: image.type });
+        const url = URL.createObjectURL(blob);
+        setSize(blob.size);
+        setUrl(url);
+      }
+    },
+    [image]
+  );
+
+  useEffect(() => {
+    () => {
+      if (url.indexOf("blob:") !== -1) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [url]);
   return (
     <div
       data-key={id}
@@ -59,7 +101,7 @@ export const Image = ({
             category === "icon" && "bg-neutral-900/35"
           )}
         >
-          {filesize(image.size || 0)}
+          {filesize(size || 0)}
         </div>
       </div>
       <div
@@ -76,16 +118,19 @@ export const Image = ({
           )}
         />
         <img
-          src={image.src}
+          src={url || image.src}
           alt={image.alt}
           loading="eager"
           decoding="async"
           draggable="false"
           referrerPolicy="no-referrer"
           className={cn(
-            "bg-gray-200 object-contain h-full w-auto p-0",
-            category !== "main" && "h-full p-4"
+            "bg-gray-200 object-cover h-full w-auto p-0 max-h-full rounded-sm",
+            category !== "main" && "h-full p-4",
+            aspect > 1 && "w-full h-auto",
+            aspect < 1 && "h-full w-auto"
           )}
+          onError={onError}
           data-select-muti
         />
       </div>

@@ -13,6 +13,7 @@ import { useAsyncMemo } from "@src/lib/hooks/useAsyncMemo";
 
 import "@pages/panel/Panel.css";
 import { useUnmount } from "./inject/useUnmount";
+import { connStore } from "@src/stores/conn-store";
 
 export default function Panel() {
   const { addImages, addLinks, allFrames } = useImageStore(
@@ -71,8 +72,9 @@ export default function Panel() {
   // 得到数据发送通道实例，可以向指定frameId发送消息
   const { communication, dispose } = useCommunication(
     tabId,
-    async () => {
+    async (conn) => {
       if (!tabId) return;
+      connStore.getState().setCommunicationRef?.(conn);
       // 当panel显示时再加载通讯组件可以保证连接
       // 加载消息通信组件，用来实时从标签页获取数据
       await chrome.scripting.executeScript({
@@ -132,6 +134,5 @@ export default function Panel() {
 function findImages() {
   // 设置为采集状态
   window.collector.active = true;
-  const result = window.collector.loop();
-  console.log(result);
+  const _result = window.collector.loop();
 }

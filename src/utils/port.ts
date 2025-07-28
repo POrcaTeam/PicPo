@@ -11,7 +11,9 @@ import "./size";
   connect.onDisconnect.addListener((request) => {
     try {
       console.debug(request.sender?.frameId + "lost connection");
-      window.collector.active = false;
+      if (window.collector) {
+        window.collector.active = false;
+      }
     } catch (e) {}
   });
   // 用来传递消息到 background script
@@ -109,7 +111,9 @@ import "./size";
       // });
     } else if (request.cmd === "stop-collector") {
       try {
-        window.collector.active = false;
+        if (window.collector) {
+          window.collector.active = false;
+        }
       } catch (e) {}
 
       // 断开所有链接

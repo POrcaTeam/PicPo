@@ -20,7 +20,7 @@ export type ICommunication = {
  */
 export const useCommunication = (
   tabId: number,
-  callback: () => void,
+  callback: (ref: React.RefObject<ICommunication>) => void,
   onMessage?: (request: any) => void
 ) => {
   const { addLinks, setProgress } = useImageStore(
@@ -90,7 +90,7 @@ export const useCommunication = (
     // 用来接受标签页传送的信息
     chrome.runtime.onConnect.addListener(onConnect);
     if (typeof callback === "function") {
-      callback();
+      callback(communication);
     }
     () => {
       chrome.runtime.onConnect.removeListener(onConnect);
