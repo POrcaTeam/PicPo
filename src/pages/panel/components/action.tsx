@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState, useRef } from "react";
+import { useMemo, useCallback, useState, useRef, useEffect } from "react";
 import { ImageDown } from "lucide-react";
 import { size } from "es-toolkit/compat";
 import { useShallow } from "zustand/shallow";
@@ -8,7 +8,7 @@ import { Button } from "@src/components/ui/button";
 import { Checkbox } from "@src/components/ui/checkbox";
 import { Label } from "@src/components/ui/label";
 import { useImageStore } from "@src/stores/image-stores";
-import { DownloadType } from "@src/pages/background/download";
+import { DownloadType, perform } from "@src/pages/background/download";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +20,9 @@ import { SaveDialog, SaveDialogFunction } from "./save-dialog";
 import { useI18n } from "@src/lib/hooks/useI18n";
 
 import CutImg from "@assets/img/icon_JT.svg";
+import { getImageFromPage } from "../inject/download";
+import { sendFile, sendMessage, startConnection } from "./message";
+import { ErrorDialog, ErrorDialogFunction } from "./error-dialog";
 
 export const Action = (props: {
   onCheckedChange: (checked: boolean) => void;
@@ -78,10 +81,58 @@ export const Action = (props: {
     }
   }, [images]);
 
+  const saveToPicorca = useCallback(async () => {
+    try {
+      // 发送测试消息到picorca
+      sendMessage("hello from picorca panel");
+    } catch (e) {
+      console.error("Failed to send message to picorca:", e);
+      errorDialogRef.current?.open("error");
+      setRtcEnabled(false);
+      return;
+    }
+    // 获得当前已选中的images
+    const selectedImages = useImageStore.getState().getSelectedImages?.();
+    if (selectedImages && selectedImages.length > 0) {
+      setDisabledDownload(true);
+      await perform({ images: selectedImages }, async (filename, image) => {
+        let content;
+        try {
+          content = await getImageFromPage(props.communication.current, image);
+        } catch (e: any) {
+          content = await new Blob([
+            image.src + "\n\nCannot download image; " + e.message,
+          ]).arrayBuffer();
+          filename += ".txt";
+        }
+        const unit8Array = new Uint8Array(content);
+        sendFile(unit8Array, filename);
+        return 0;
+      });
+
+      // 添加后清空选中状态
+      useImageStore.getState().clearSelected?.();
+      setDisabledDownload(false);
+    }
+  }, []);
+
   // 一次只能开启一个下载任务,当下载任务未完成时无法重复开启，防止阻塞
   const [disabledDownload, setDisabledDownload] = useState(false);
 
   const saveDialogRef = useRef<SaveDialogFunction>(null);
+  const errorDialogRef = useRef<ErrorDialogFunction>(null);
+
+  const [rtcEnabled, setRtcEnabled] = useState(false);
+  useEffect(() => {
+    // 启动消息通道
+    startConnection()
+      .then(() => {
+        setRtcEnabled(true);
+      })
+      .catch((e) => {
+        console.error("Failed to start picorca connection:", e);
+      });
+  }, []);
   return (
     <div className="flex flex-col flex-nowrap my-2">
       <div className="flex flex-row flex-1 items-center space-x-2 my-4">
@@ -136,6 +187,14 @@ export const Action = (props: {
             >
               {t("download_zip")}
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={saveToPicorca}
+              disabled={
+                selectedImages.length === 0 || disabledDownload || !rtcEnabled
+              }
+            >
+              {t("save_to_picorca")}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -145,6 +204,7 @@ export const Action = (props: {
         disabledDownload={disabledDownload}
         setDisabledDownload={setDisabledDownload}
       />
+      <ErrorDialog ref={errorDialogRef} />
     </div>
   );
 };

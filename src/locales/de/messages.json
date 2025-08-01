@@ -34,10 +34,15 @@
   "rectangle": { "message": "Hochformat" },
   "dialog_title": { "message": "Daten als ZIP speichern" },
   "dialog_description": { "message": "Bitte ZIP-Dateinamen eingeben" },
+   "dialog_error_title": { "message": "Fehler" },
+  "dialog_error_description": { "message": "Beim Speichern der Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut." },
+  "error": { "message": "Bitte stellen Sie sicher, dass Picorca auf die neueste Version aktualisiert wurde und ordnungsgemäß ausgeführt wird." },
+  "confirm": { "message": "Bestätigen" },
   "zip_label": { "message": "ZIP-Dateiname" },
   "cancel": { "message": "Abbrechen" },
   "download": { "message": "Herunterladen" },
   "download_images": { "message": "Bilder lokal herunterladen" },
   "download_zip": { "message": "Als ZIP herunterladen" },
+  "save_to_picorca":{"message":"Speichern bei Picorca"},
   "collecting": { "message": "Wird gesammelt..." }
 }

@@ -37,7 +37,6 @@ export type ISaveDialog = {
 };
 
 export type SaveDialogFunction = {
-  // 打开移动文件窗口，默认显示当前文件所在目录
   open: () => void;
   close: () => void;
 };

@@ -34,10 +34,15 @@
   "rectangle": { "message": "Tall" },
   "dialog_title": { "message": "Save Data as ZIP" },
   "dialog_description": { "message": "Please enter a ZIP file name" },
+  "dialog_error_title": { "message": "Error" },
+  "dialog_error_description": { "message": "An error occurred while saving the file. Please try again." },
+  "error":{"message":"Please confirm that Picorca has been updated to the latest version and is running properly"},
+  "confirm": { "message": "Confirm" },
   "zip_label": { "message": "ZIP File Name" },
   "cancel": { "message": "Cancel" },
   "download": { "message": "Download" },
   "download_images": { "message": "Download Images Locally" },
   "download_zip": { "message": "Download as ZIP" },
+  "save_to_picorca":{"message":"Save to Picorca"},
   "collecting":{ "message": "collecting..." }
 }

@@ -34,10 +34,15 @@
   "rectangle": { "message": "长图" },
   "dialog_title": { "message": "保存数据为 ZIP" },
   "dialog_description": { "message": "请输入压缩包名称" },
+  "dialog_error_title": { "message": "出错" },
+  "dialog_error_description": { "message": "保存文件时发生错误. 请重试." },
+  "error":{"message":"请确认picorca已升级到最新版本并正常运行"},
+  "confirm": { "message": "确认" },
   "zip_label": { "message": "压缩包名称" },
   "cancel": { "message": "取消" },
   "download": { "message": "下载" },
   "download_images": { "message": "下载图片到本地" },
   "download_zip": { "message": "压缩下载到本地" },
+  "save_to_picorca":{"message":"保存到Picorca"},
   "collecting": { "message": "正在收集..." }
 }
