@@ -14,6 +14,7 @@ import { useAsyncMemo } from "@src/lib/hooks/useAsyncMemo";
 import "@pages/panel/Panel.css";
 import { useUnmount } from "./inject/useUnmount";
 import { connStore } from "@src/stores/conn-store";
+import { Download } from "./components/download";
 
 export default function Panel() {
   const { addImages, addLinks, allFrames } = useImageStore(
@@ -113,6 +114,7 @@ export default function Panel() {
         <>
           <div className="w-full">
             <Progress />
+            <Download />
           </div>
           <div className="flex flex-col p-2 py-0 mt-[5px] flex-1 w-full min-h-1 transition-all duration-100">
             <Filter />

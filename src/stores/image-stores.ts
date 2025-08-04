@@ -37,6 +37,12 @@ export type ImageStates = {
   selectedImages: Array<string>;
   // 过滤后的图片集合
   filterImages: Record<string, ImageEntry>;
+  // 下载进度
+  download_progress: {
+    done: "none" | "downloading" | "finished"; // 下载状态
+    all_num: number;
+    finished_num: number;
+  };
 };
 
 export type ActionStates = {
@@ -64,6 +70,8 @@ export type ActionStates = {
   getSelectedImages: () => Array<ImageEntry>;
   // 设置过滤后的数据
   setFilterImages: (images: Record<string, ImageEntry>) => void;
+  // 修改下载进度
+  setDownloadState: (all_num: number, finished_num: number) => void;
 };
 
 export type ImageStore = ImageStates & Partial<ActionStates>;
@@ -76,6 +84,11 @@ export const initImageStore = (): ImageStore => {
     progress: undefined,
     selectedImages: [],
     filterImages: {},
+    download_progress: {
+      done: "none",
+      all_num: 0,
+      finished_num: 0,
+    },
   };
 };
 
@@ -243,6 +256,24 @@ const useImageStoreBase = create<ImageStore>()(
     setFilterImages: (images) => {
       set((draft) => {
         draft.filterImages = images;
+      });
+    },
+    setDownloadState: (all_num, finished_num) => {
+      set((draft) => {
+        console.log(all_num, finished_num);
+        if (draft.download_progress.all_num !== all_num) {
+          draft.download_progress.all_num = all_num;
+        }
+        draft.download_progress.finished_num = finished_num;
+        if (finished_num === 0) {
+          draft.download_progress.done = "none";
+        } else if (finished_num < all_num) {
+          draft.download_progress.done = "downloading";
+        } else if (finished_num === all_num) {
+          draft.download_progress.all_num = 0;
+          draft.download_progress.finished_num = 0;
+          draft.download_progress.done = "finished";
+        }
       });
     },
   }))

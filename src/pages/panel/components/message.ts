@@ -88,7 +88,9 @@ const BUFFER_LOW_WATERMARK = 128 * 1024; // 128KB：继续发送
 
 export async function sendFile(blob: Uint8Array, fileName: string) {
   if (!dataChannel) return;
-  dataChannel?.send("INSERT_FILE(" + fileName + ")");
+
+  const fileId = Math.floor(Math.random() * 0xffffffff); // 生成随机 fileId
+  dataChannel?.send(encodeBinaryFrame(0, fileId, undefined, fileName));
 
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
@@ -122,11 +124,56 @@ export async function sendFile(blob: Uint8Array, fileName: string) {
     await waitForBufferedAmountLow(dataChannel);
 
     // 发送 chunk
-    dataChannel.send(value.buffer as ArrayBuffer);
+    dataChannel.send(
+      encodeBinaryFrame(1, fileId, new Uint8Array(value.buffer))
+    );
   }
 
-  dataChannel.send("END_OF_FILE");
+  dataChannel.send(encodeBinaryFrame(2, fileId));
   console.debug("File transfer completed");
+}
+
+// 编码二进制帧
+function encodeBinaryFrame(
+  frameType: 0 | 1 | 2,
+  fileId: number,
+  payload?: Uint8Array,
+  fileName?: string
+): Uint8Array {
+  const magic = 0xabcd;
+  const payloadBytes = payload || new Uint8Array(0);
+  const fileNameBytes = fileName
+    ? new TextEncoder().encode(fileName)
+    : new Uint8Array(0);
+
+  const headerLength = 2 + 1 + 4 + 1 + 4 + fileNameBytes.length;
+  const totalLength = headerLength + payloadBytes.length;
+
+  const buffer = new Uint8Array(totalLength);
+  const view = new DataView(buffer.buffer);
+
+  let offset = 0;
+  view.setUint16(offset, magic, true);
+  offset += 2;
+
+  view.setUint8(offset, frameType);
+  offset += 1;
+
+  view.setUint32(offset, fileId, true);
+  offset += 4;
+
+  view.setUint8(offset, fileNameBytes.length);
+  offset += 1;
+
+  view.setUint32(offset, payloadBytes.length, true);
+  offset += 4;
+
+  buffer.set(fileNameBytes, offset);
+  offset += fileNameBytes.length;
+
+  buffer.set(payloadBytes, offset);
+
+  return buffer;
 }
 
 function waitForBufferedAmountLow(dc: RTCDataChannel): Promise<void> {

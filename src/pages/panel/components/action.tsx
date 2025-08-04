@@ -29,10 +29,11 @@ export const Action = (props: {
   // 消息发送实例，可以往任意iframe发送消息，为惰性实例，需要主动调用使用
   communication: React.RefObject<ICommunication>;
 }) => {
-  const { selectedImages, images } = useImageStore(
+  const { selectedImages, images, setDownloadState } = useImageStore(
     useShallow((store) => ({
       selectedImages: store.selectedImages,
       images: store.images,
+      setDownloadState: store.setDownloadState,
     }))
   );
   const t = useI18n();
@@ -93,9 +94,12 @@ export const Action = (props: {
     }
     // 获得当前已选中的images
     const selectedImages = useImageStore.getState().getSelectedImages?.();
+    setDownloadState?.(selectedImages?.length || 0, 0);
+    let finishedCount = 0;
     if (selectedImages && selectedImages.length > 0) {
       setDisabledDownload(true);
       await perform({ images: selectedImages }, async (filename, image) => {
+        console.warn(filename, image);
         let content;
         try {
           content = await getImageFromPage(props.communication.current, image);
@@ -106,7 +110,9 @@ export const Action = (props: {
           filename += ".txt";
         }
         const unit8Array = new Uint8Array(content);
-        sendFile(unit8Array, filename);
+        await sendFile(unit8Array, filename);
+        finishedCount++;
+        setDownloadState?.(selectedImages?.length || 0, finishedCount);
         return 0;
       });
 
