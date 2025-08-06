@@ -145,7 +145,15 @@ export const SaveDialog: React.FC<PropsWithChildren<ISaveDialog>> = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onPointerDownOutside={() => {
+          setDisabledDownload(false);
+        }}
+        onEscapeKeyDown={() => {
+          setDisabledDownload(false);
+        }}
+      >
         <DialogHeader>
           <DialogTitle>{t("dialog_title")}</DialogTitle>
           <DialogDescription>{t("dialog_description")}</DialogDescription>

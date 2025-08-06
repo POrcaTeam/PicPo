@@ -7,7 +7,10 @@ import { useImageStore } from "@src/stores/image-stores";
 import SelectImg from "@assets/img/select.svg";
 import { getImageFromPage } from "../inject/download";
 import { connStore } from "@src/stores/conn-store";
+import { useI18n } from "@src/lib/hooks/useI18n";
 
+export const DEFAULT_IMG =
+  "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==";
 export const Image = ({
   image,
   id,
@@ -29,14 +32,20 @@ export const Image = ({
     return aspect;
   }, [image]);
 
+  const t = useI18n();
+  // 是否加载成功
+  const [load, setLoad] = useState(false);
+
   const [url, setUrl] = useState(() => image.src);
   const [size, setSize] = useState(() => image.size);
 
+  const [error, setError] = useState(false);
   const errorRef = useRef(0);
   // 文件下载失败从源内重新请求
   const onError = useCallback(
     async (_event: React.SyntheticEvent<HTMLImageElement, Event>) => {
       if (errorRef.current === 2) {
+        setError(true);
         return;
       }
       errorRef.current = errorRef.current + 1;
@@ -50,6 +59,8 @@ export const Image = ({
         const url = URL.createObjectURL(blob);
         setSize(blob.size);
         setUrl(url);
+      } else {
+        onError(_event);
       }
     },
     [image]
@@ -118,21 +129,35 @@ export const Image = ({
           )}
         />
         <img
-          src={url || image.src}
+          src={error ? DEFAULT_IMG : url || image.src}
           alt={image.alt}
-          loading="eager"
+          loading="lazy"
           decoding="async"
           draggable="false"
           referrerPolicy="no-referrer"
           className={cn(
-            "bg-gray-200 object-cover h-full w-auto p-0 max-h-full rounded-sm",
+            "bg-gray-200 object-cover h-full w-auto p-0 max-h-full rounded-sm opacity-0 transition-opacity duration-100",
             category !== "main" && "h-full p-4",
             aspect > 1 && "w-full h-auto",
-            aspect < 1 && "h-full w-auto"
+            aspect < 1 && "h-full w-auto",
+            load && "opacity-100"
           )}
           onError={onError}
+          onLoad={() => {
+            setLoad(true);
+          }}
           data-select-muti
         />
+        {error && (
+          <div
+            className={cn(
+              "absolute h-full w-full top-0 left-0 flex items-center justify-center text-gray-500",
+              isSelected && "bg-[#b4b4b42e]"
+            )}
+          >
+            {t("no_content")}
+          </div>
+        )}
       </div>
       <div
         className={cn(

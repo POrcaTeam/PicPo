@@ -1,5 +1,5 @@
 // 图片分类
-export function classifyImage(image: ImageEntry): "main" | "icon" | "other" {
+export function classifyImage(image: ImageEntry): "main" | "icon" | "others" {
   const ext = image.filename?.toLowerCase();
   let isRaster = false;
   let isSvg = false;
@@ -25,5 +25,5 @@ export function classifyImage(image: ImageEntry): "main" | "icon" | "other" {
   }
 
   // 规则 3: 其他
-  return "other";
+  return "others";
 }

@@ -108,7 +108,7 @@ export default function Panel() {
     dispose();
   });
   return (
-    <div className="container flex flex-col flex-nowrap items-center justify-center h-dvh">
+    <div className="w-full flex flex-col flex-nowrap items-center justify-center h-dvh">
       {!isRealWebPage && <ErrEl />}
       {isRealWebPage && (
         <>

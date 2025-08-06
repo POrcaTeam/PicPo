@@ -27,8 +27,7 @@
     "downloads",
     "notifications",
     "unlimitedStorage",
-    "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess"
+    "declarativeNetRequest"
   ],
   "content_scripts": [
     {

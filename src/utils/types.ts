@@ -18,7 +18,7 @@ interface ImageEntry {
   };
   position?: number; // 资源序号
   disposition?: string;
-  categorize?: "main" | "icon" | "other";
+  categorize?: "main" | "icon" | "others";
   frameId?: number; // 图片所在的iframe页面的id,内部数据下载使用
 }
 

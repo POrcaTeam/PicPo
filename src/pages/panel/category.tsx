@@ -42,7 +42,7 @@ export const Category = React.memo(({ categoryId }: { categoryId: string }) => {
       {categoryId !== "main" && categoryId !== "icon" && (
         <div className="grid grid-cols-[repeat(auto-fit,minmax(70px,1fr))] gap-2 mt-[10px]">
           {map(images, (image, key) => {
-            if (image.categorize === "other") {
+            if (image.categorize === "others") {
               return (
                 <Image
                   image={image}
