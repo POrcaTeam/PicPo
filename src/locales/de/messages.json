@@ -44,5 +44,6 @@
   "download_images": { "message": "Bilder lokal herunterladen" },
   "download_zip": { "message": "Als ZIP herunterladen" },
   "save_to_picorca":{"message":"Speichern bei Picorca"},
-  "collecting": { "message": "Wird gesammelt..." }
+  "collecting": { "message": "Wird gesammelt..." },
+  "no_content": { "message": "Kein Inhalt" }
 }

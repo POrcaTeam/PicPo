@@ -44,5 +44,9 @@
   "download_images": { "message": "下载图片到本地" },
   "download_zip": { "message": "压缩下载到本地" },
   "save_to_picorca":{"message":"保存到Picorca"},
-  "collecting": { "message": "正在收集..." }
+  "collecting": { "message": "正在收集..." },
+  "no_content": {
+    "message": "无内容",
+    "description": "图片无法正常显示"
+  }
 }

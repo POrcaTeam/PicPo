@@ -44,5 +44,9 @@
   "download_images": { "message": "Download Images Locally" },
   "download_zip": { "message": "Download as ZIP" },
   "save_to_picorca":{"message":"Save to Picorca"},
-  "collecting":{ "message": "collecting..." }
+  "collecting":{ "message": "collecting..." },
+  "no_content": {
+    "message": "No content",
+    "description": "Message displayed when an image fails to load"
+  }
 }

@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Picpo",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Легко загружайте изображения с любого сайта, сохраняйте изображения для Picorca",
+    "description": "Extension description"
+  },
+  "image_summary": {
+    "message": "Найдено $1 изображений, выбрано $2",
+    "placeholders": {
+      "num_images": {
+        "content": "$1"
+      },
+      "selected_images": {
+        "content": "$2"
+      }
+    }
+  },
+  "list_capture": { "message": "Скриншот" },
+  "list_main": { "message": "Главное изображение" },
+  "list_icon": { "message": "Иконка" },
+  "list_others": { "message": "Другое" },
+  "select_all": { "message": "Выбрать все" },
+  "image_size_placeholder": { "message": "Размер" },
+  "image_size_small": { "message": "маленький" },
+  "image_size_medium": { "message": "средний" },
+  "image_size_large": { "message": "большой" },
+  "image_type": { "message": "Тип" },
+  "image_shape": { "message": "Форма" },
+  "square": { "message": "Квадрат" },
+  "wide": { "message": "Широкий" },
+  "rectangle": { "message": "Высокий" },
+  "dialog_title": { "message": "Сохранить данные как ZIP" },
+  "dialog_description": { "message": "Пожалуйста, введите имя ZIP-файла" },
+  "dialog_error_title": { "message": "Ошибка" },
+  "dialog_error_description": { "message": "Произошла ошибка при сохранении файла. Пожалуйста, попробуйте снова." },
+  "error": { "message": "Пожалуйста, убедитесь, что Picorca обновлён до последней версии и работает корректно" },
+  "confirm": { "message": "Подтвердить" },
+  "zip_label": { "message": "Имя ZIP-файла" },
+  "cancel": { "message": "Отмена" },
+  "download": { "message": "Скачать" },
+  "download_images": { "message": "Скачать изображения локально" },
+  "download_zip": { "message": "Скачать как ZIP" },
+  "save_to_picorca": { "message": "Сохранить в Picorca" },
+  "collecting": { "message": "сбор..." },
+  "no_content": {
+    "message": "Нет содержимого",
+    "description": "Message displayed when an image fails to load"
+  }
+}
