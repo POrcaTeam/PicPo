@@ -20,9 +20,11 @@ import { SaveDialog, SaveDialogFunction } from "./save-dialog";
 import { useI18n } from "@src/lib/hooks/useI18n";
 
 import CutImg from "@assets/img/icon_JT.svg";
+import PicorcaImg from "@assets/img/icon_Collect@2x.png";
 import { getImageFromPage } from "../inject/download";
 import { sendFile, sendMessage, startConnection } from "./message";
 import { ErrorDialog, ErrorDialogFunction } from "./error-dialog";
+import { cn } from "@src/lib/utils";
 
 export const Action = (props: {
   onCheckedChange: (checked: boolean) => void;
@@ -167,6 +169,19 @@ export const Action = (props: {
           onClick={onScreenShot}
         >
           <img src={CutImg} alt="ScreenShot" />
+        </Button>
+        <Button
+          size="icon"
+          className={cn("cursor-pointer size-8", {
+            "cursor-not-allowed":
+              selectedImages.length === 0 || disabledDownload || !rtcEnabled,
+          })}
+          onClick={saveToPicorca}
+          disabled={
+            selectedImages.length === 0 || disabledDownload || !rtcEnabled
+          }
+        >
+          <img src={PicorcaImg} alt="Picorca" />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger>

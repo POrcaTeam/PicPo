@@ -3,6 +3,7 @@
     cmd: "apply-referer";
     src: string;
     referer: string;
+    credentials?: RequestCredentials;
   };
 
   type RevokeRefererRequest = {
@@ -10,10 +11,14 @@
     id: number;
   };
 
-  const applyReferer = (src: string, referer: string): Promise<number> => {
+  const applyReferer = (
+    src: string,
+    referer: string,
+    credentials?: RequestCredentials
+  ): Promise<number> => {
     return new Promise((resolve) => {
       chrome.runtime.sendMessage<ApplyRefererRequest>(
-        { cmd: "apply-referer", src, referer },
+        { cmd: "apply-referer", src, referer, credentials },
         resolve
       );
       setTimeout(() => resolve(-1), 1000);
@@ -44,7 +49,7 @@
       ) {
         const referer = (props.headers as Record<string, string>)["referer"];
         if (referer && referer.startsWith("http")) {
-          return applyReferer(url, referer).then((id) => {
+          return applyReferer(url, referer, props.credentials).then((id) => {
             return Reflect.apply(target, thisArg, argArray)
               .then((response: Response) => {
                 revokeReferer(id);

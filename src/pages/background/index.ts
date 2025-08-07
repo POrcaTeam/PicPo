@@ -49,33 +49,51 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.cmd === "apply-referer") {
     try {
       const id = Math.floor(Math.random() * 1000000);
+      const rule = {
+        id: id,
+        priority: 2,
+        action: {
+          type: "modifyHeaders",
+          requestHeaders: [
+            {
+              operation: "set",
+              header: "referer",
+              value: message.referer,
+            },
+            {
+              operation: "remove",
+              header: "origin",
+            },
+          ],
+        },
+        condition: {
+          urlFilter: message.src,
+          resourceTypes: ["xmlhttprequest", "image"],
+          tabIds: [sender.tab.id],
+        },
+      } as any;
+      if (message.credentials === "include") {
+        let o = message.referer;
+        try {
+          o = new URL(message.referer).origin;
+        } catch (e) {}
+
+        rule.action.responseHeaders = [
+          {
+            operation: "set",
+            header: "access-control-allow-origin",
+            value: o,
+          },
+          {
+            operation: "set",
+            header: "Access-Control-Allow-Credentials",
+            value: "true",
+          },
+        ];
+      }
       chrome.declarativeNetRequest
         .updateSessionRules({
-          addRules: [
-            {
-              id: id,
-              priority: 1,
-              action: {
-                type: "modifyHeaders",
-                requestHeaders: [
-                  {
-                    operation: "set",
-                    header: "referer",
-                    value: message.referer,
-                  },
-                  {
-                    operation: "remove",
-                    header: "origin",
-                  },
-                ],
-              },
-              condition: {
-                urlFilter: message.src,
-                resourceTypes: ["xmlhttprequest", "image"],
-                tabIds: [sender.tab.id],
-              },
-            },
-          ] as any,
+          addRules: [rule as any],
         })
         .then(
           () => sendResponse(id),

@@ -113,35 +113,57 @@
   };
 
   size.webp = (uint8a: Uint8Array): ImageSize | undefined => {
-    const view = new DataView(uint8a.buffer.slice(20, 30));
     const chunkHeader = String.fromCharCode(...uint8a.slice(12, 16));
 
-    // VP8X (extended WebP)
+    // VP8X (Extended WebP)
     if (chunkHeader === "VP8X") {
-      console.warn("VP8X is not yet supported");
-      return undefined;
-    }
+      if (uint8a.length < 30) return;
 
-    // VP8 (lossy WebP)
-    if (chunkHeader === "VP8 " && uint8a[0] !== 0x2f) {
+      const width = (uint8a[24] << 16) | (uint8a[23] << 8) | uint8a[22];
+      const height = (uint8a[27] << 16) | (uint8a[26] << 8) | uint8a[25];
+
       return {
         type: "image/webp",
-        width: view.getInt32(6, true) & 0x3fff,
-        height: view.getInt16(8, true) & 0x3fff,
+        width: width + 1,
+        height: height + 1,
       };
     }
 
-    // VP8L (lossless WebP)
-    const signature = hex(uint8a, 3, 6);
-    if (chunkHeader === "VP8L" && signature !== "9d012a") {
+    // VP8 (Lossy WebP)
+    if (chunkHeader === "VP8 ") {
+      if (uint8a.length < 30) return;
+
+      // VP8 lossy header starts at offset 20
+      const view = new DataView(uint8a.buffer, uint8a.byteOffset + 20, 10);
+      const width = view.getUint16(6, true) & 0x3fff;
+      const height = view.getUint16(8, true) & 0x3fff;
+
       return {
         type: "image/webp",
-        width: 1 + (((uint8a[22] & 0x3f) << 8) | uint8a[21]),
-        height:
-          1 +
-          (((uint8a[24] & 0x0f) << 10) |
-            (uint8a[23] << 2) |
-            ((uint8a[22] & 0xc0) >> 6)),
+        width,
+        height,
+      };
+    }
+
+    // VP8L (Lossless WebP)
+    if (chunkHeader === "VP8L") {
+      if (uint8a.length < 25) return;
+
+      // Signature check (should be 0x2f)
+      if (uint8a[20] !== 0x2f) return;
+
+      const b0 = uint8a[21];
+      const b1 = uint8a[22];
+      const b2 = uint8a[23];
+      const b3 = uint8a[24];
+
+      const width = 1 + (((b1 & 0x3f) << 8) | b0);
+      const height = 1 + (((b3 & 0x0f) << 10) | (b2 << 2) | ((b1 & 0xc0) >> 6));
+
+      return {
+        type: "image/webp",
+        width,
+        height,
       };
     }
 

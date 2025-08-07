@@ -14,6 +14,9 @@ export const getImageFromPage = (
     if (isNumber(o.frameId)) {
       const port = communication.ports[o.frameId];
       communication.funcs[uid] = async (response) => {
+        if (response.error) {
+          reject(Error(response.error));
+        }
         try {
           try {
             const r = await fetch(response.href);

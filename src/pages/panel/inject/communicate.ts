@@ -9,7 +9,7 @@ export type ICommunication = {
   ports: Record<string, chrome.runtime.Port>;
   funcs: Record<
     string,
-    (response: { uid: string; href: string }) => Promise<void>
+    (response: { uid: string; href: string; error: any }) => Promise<void>
   >; // 生成动态方法,用作下载后回调
 };
 

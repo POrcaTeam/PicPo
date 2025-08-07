@@ -3,6 +3,7 @@ import { extractUrls, Utils } from "./utils/utils";
 declare global {
   interface Window {
     collector: Collector;
+    sources: Map<string, any>;
     post: (request: any) => void;
     size: any;
     type: any;
@@ -105,7 +106,7 @@ export class Collector {
   /**
    * 启动入口（调用后开始运行采集任务）
    */
-  public loop() {
+  public async loop() {
     // 重置到初始状态
     if (this.position > 0) {
       this.headJobs = 0;
@@ -125,7 +126,7 @@ export class Collector {
     this.active = true;
 
     // 开始采集图片
-    this.inspect(document, location, "one", {
+    await this.inspect(document, location, "one", {
       bg: true, // 采集背景图片
       links: true, // 采集 <a> 链接
       extract: true, // 采集硬编码链接
@@ -243,21 +244,25 @@ export class Collector {
     this.validateJobs++;
     let rm = false;
     try {
-      const res = await this.meta(o);
-      if ("meta" in res && res.meta) {
-        Object.assign(o, res.meta);
-        o.meta.type = res.origin;
+      if (o.verified && o.meta.size === "custom.extensions") {
+        this.addImage(o);
+      } else {
+        const res = await this.meta(o);
+        if ("meta" in res && res.meta) {
+          Object.assign(o, res.meta);
+          o.meta.type = res.origin;
 
-        if (
-          o.type?.startsWith("image/") ||
-          o.type?.startsWith("application/")
-        ) {
-          // 添加图片
-          this.addImage(o);
-        } else if (o.type?.startsWith("text/html")) {
-          // 添加待检索文档
-          this.document(o);
-          rm = true;
+          if (
+            o.type?.startsWith("image/") ||
+            o.type?.startsWith("application/")
+          ) {
+            // 添加图片
+            this.addImage(o);
+          } else if (o.type?.startsWith("text/html")) {
+            // 添加待检索文档
+            this.document(o);
+            rm = true;
+          }
         }
       }
     } catch (e) {
@@ -413,7 +418,7 @@ export class Collector {
       doc.head.appendChild(base);
 
       testPost({ cmd: "new-frame" });
-      this.inspect(doc, new URL(o.src), "two", {
+      await this.inspect(doc, new URL(o.src), "two", {
         bg: this.deep === 3,
         links: this.deep === 3,
         extract: this.deep === 3,
@@ -436,7 +441,7 @@ export class Collector {
    * @param name
    * @param policies 分析策略
    */
-  public inspect(
+  public async inspect(
     doc: Document,
     loc: Location | URL,
     name: string,
@@ -452,6 +457,17 @@ export class Collector {
     const { accuracy } = options;
     this.accuracy = accuracy ? accuracy : "no-accurate";
 
+    const prefs = await new Promise<{
+      "custom-extensions": string[];
+    }>((resolve) =>
+      chrome.storage.local.get(
+        {
+          "custom-extensions": ["pdf"],
+        },
+        resolve
+      )
+    );
+
     const docs: (Document | ShadowRoot)[] = [doc];
     this.findRoots(doc, docs);
 
@@ -464,6 +480,8 @@ export class Collector {
           (img as any).dataset?.src;
         if (!src) continue;
 
+        // 存储图片
+        self.sources.set(src, img);
         this.push({
           width: img.naturalWidth,
           height: img.naturalHeight,
@@ -479,8 +497,10 @@ export class Collector {
             type: "skipped",
           },
         });
-
+        // 如果图片有src和currentSrc不一致,则认为是一个新的图片
+        // 这通常是因为图片被懒加载了,所以需要重新获取
         if (img.src && img.currentSrc !== img.src) {
+          self.sources.set(img.src, img);
           this.push({
             src: img.src,
             alt: img.alt,
@@ -499,8 +519,10 @@ export class Collector {
       // part 2: <source> 标签
       for (const source of Array.from(d.querySelectorAll("source"))) {
         if (source.srcset) {
+          const src = source.srcset.split(" ")[0];
+          self.sources.set(src, source);
           this.push({
-            src: source.srcset.split(" ")[0],
+            src,
             type: source.type,
             page: loc.href,
             meta: { origin: `${name} - source.element` },
@@ -574,6 +596,7 @@ export class Collector {
       // part 5: <image> inside <svg>
       for (const img of Array.from(d.querySelectorAll("image"))) {
         const src = (img as any).href?.baseVal;
+        self.sources.set(src, img);
         if (src) {
           this.push({
             src,
@@ -622,6 +645,34 @@ export class Collector {
               meta: { origin: `${name} - regex.hard-coded.link` },
             });
           });
+      }
+
+      // part 8: custom extensions
+      if (prefs["custom-extensions"].length) {
+        for (const doc of docs) {
+          for (const a of doc.querySelectorAll("a")) {
+            if (
+              a.href &&
+              prefs["custom-extensions"].some((e) => a.href.includes("." + e))
+            ) {
+              this.push({
+                width: 1,
+                height: 1,
+                src: a.href,
+                custom: a.getAttribute(this.customAttr) || "",
+                // if image is verified, we dont have the image size. on accurate mode set it to false
+                verified: true,
+                page: loc.href,
+                type: "image/unknown",
+                meta: {
+                  origin: name + " - custom.extensions",
+                  size: "custom.extensions",
+                  type: "skipped",
+                },
+              });
+            }
+          }
+        }
       }
     }
   }

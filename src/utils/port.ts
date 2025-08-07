@@ -2,6 +2,9 @@
 // 导入其他包
 import "./fetch";
 import "./size";
+
+type RequireProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+type RequestInitModified = RequireProps<RequestInit, "headers">;
 {
   // 同panel创建连接
   const connect = chrome.runtime.connect({
@@ -20,9 +23,10 @@ import "./size";
   const onPostMessage = (request: any) => {
     // 压缩zip采用客户端数据下载,这里执行客户端下载方法
     if (request.cmd === "download-image") {
+      const img = self.sources.get(request.src);
       // try to find the image on page and download it (it is useful specially if the image src is a dead blob)
       const capture = () => {
-        const e: any = document.querySelector(`img[src="${request.src}"]`);
+        const e = img || document.querySelector(`img[src="${request.src}"]`);
 
         if (!e) {
           return;
@@ -42,12 +46,31 @@ import "./size";
         });
       };
 
-      fetch(request.src, {
+      const props: RequestInitModified = {
         headers: {
           referer: request.referer,
         },
-      })
-        .then((r) => r.blob())
+      };
+      if (img && request.referer) {
+        if (img.referrerPolicy) {
+          if (img.referrerPolicy === "origin") {
+            try {
+              (props.headers as any).referer =
+                new URL(request.referer).origin + "/";
+            } catch (e) {}
+          } else if (img.referrerPolicy === "no-referrer") {
+            delete (props.headers as any).referer;
+          }
+        }
+      }
+
+      fetch(request.src, props)
+        .then((r) => {
+          if (!r.ok) {
+            throw Error("STATUS_CODE_" + r.status);
+          }
+          return r.blob();
+        })
         .then((blob) => {
           const href = URL.createObjectURL(blob);
           connect.postMessage({
@@ -56,15 +79,33 @@ import "./size";
           });
         })
         .catch((e) => {
-          try {
-            // can we get the image from an image element
-            capture();
-          } catch (ee) {
-            connect.postMessage({
-              uid: request.uid,
-              error: e.message,
+          // try to include credentials
+          props.credentials = "include";
+          fetch(request.src, props)
+            .then((r) => {
+              if (!r.ok) {
+                throw Error("STATUS_CODE_" + r.status);
+              }
+              return r.blob();
+            })
+            .then((blob) => {
+              const href = URL.createObjectURL(blob);
+              connect.postMessage({
+                uid: request.uid,
+                href,
+              });
+            })
+            .catch((e) => {
+              try {
+                // can we get the image from an image element
+                capture();
+              } catch (ee) {
+                connect.postMessage({
+                  uid: request.uid,
+                  error: e.message,
+                });
+              }
             });
-          }
         });
     } else if (request.cmd === "create-directory") {
       // window
@@ -130,5 +171,6 @@ import "./size";
     }
   };
 
+  self.sources = new Map();
   self.post = post;
 }
