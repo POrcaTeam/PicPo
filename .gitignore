@@ -387,6 +387,10 @@ $RECYCLE.BIN/
 /dist_chrome
 /dist_firefox
 
+# prod
+/dist_chrome.zip
+/dist_firefox.zip
+
 # etc
 .idea
 
