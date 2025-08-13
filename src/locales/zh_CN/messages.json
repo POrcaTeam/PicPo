@@ -31,7 +31,7 @@
   "image_shape": { "message": "形状" },
   "square": { "message": "方图" },
   "wide": { "message": "宽图" },
-  "rectangle": { "message": "长图" },
+  "Tall": { "message": "长图" },
   "dialog_title": { "message": "保存数据为 ZIP" },
   "dialog_description": { "message": "请输入压缩包名称" },
   "dialog_error_title": { "message": "出错" },

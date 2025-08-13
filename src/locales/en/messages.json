@@ -31,7 +31,7 @@
   "image_shape": { "message": "Shape" },
   "square": { "message": "Square" },
   "wide": { "message": "Wide" },
-  "rectangle": { "message": "Tall" },
+  "Tall": { "message": "Tall" },
   "dialog_title": { "message": "Save Data as ZIP" },
   "dialog_description": { "message": "Please enter a ZIP file name" },
   "dialog_error_title": { "message": "Error" },

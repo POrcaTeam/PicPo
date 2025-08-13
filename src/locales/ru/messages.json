@@ -31,7 +31,7 @@
   "image_shape": { "message": "Форма" },
   "square": { "message": "Квадрат" },
   "wide": { "message": "Широкий" },
-  "rectangle": { "message": "Высокий" },
+  "Tall": { "message": "Высокий" },
   "dialog_title": { "message": "Сохранить данные как ZIP" },
   "dialog_description": { "message": "Пожалуйста, введите имя ZIP-файла" },
   "dialog_error_title": { "message": "Ошибка" },

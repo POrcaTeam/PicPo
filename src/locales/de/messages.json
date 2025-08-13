@@ -31,7 +31,7 @@
   "image_shape": { "message": "Form" },
   "square": { "message": "Quadratisch" },
   "wide": { "message": "Breit" },
-  "rectangle": { "message": "Hochformat" },
+  "Tall": { "message": "Hochformat" },
   "dialog_title": { "message": "Daten als ZIP speichern" },
   "dialog_description": { "message": "Bitte ZIP-Dateinamen eingeben" },
    "dialog_error_title": { "message": "Fehler" },
