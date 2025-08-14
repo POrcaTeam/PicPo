@@ -54,8 +54,12 @@ export const Action = (props: {
     props.onCheckedChange(e as boolean);
   }, []);
 
-  const onScreenShot = () => {
-    chrome.runtime.sendMessage({ cmd: "screenshot" });
+  const onScreenShot = async () => {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const tab = tabs[0];
+    if (!tab.id) return false;
+    // 唤起 content，让它开始滚动与调度
+    chrome.tabs.sendMessage(tab.id, { type: "START_CAPTURE" });
   };
 
   /**

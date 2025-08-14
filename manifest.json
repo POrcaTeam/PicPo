@@ -28,7 +28,9 @@
     "notifications",
     "unlimitedStorage",
     "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess"
+    "declarativeNetRequestWithHostAccess",
+    "offscreen",
+    "tabCapture"
   ],
   "content_scripts": [
     {

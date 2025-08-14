@@ -32,6 +32,8 @@ type Task = {
   next: () => void;
 };
 
+const OFFSCREEN_URL = chrome.runtime.getURL("offscreen.html");
+
 // 绑定浏览器下载
 // 下载同步两种方式,一种是直接下载到本地,一种是同步到picorca中
 // 同步到picorca直接走webrtc连接
@@ -119,6 +121,36 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       return true;
     }
+  } else if (message.cmd === "ENSURE_OFFSCREEN") {
+    (async () => {
+      if (!(await chrome.offscreen.hasDocument?.())) {
+        await chrome.offscreen.createDocument({
+          url: OFFSCREEN_URL,
+          reasons: ["BLOBS"],
+          justification: "Stream PNG encoding and download",
+        });
+      }
+      sendResponse({ ok: true });
+    })();
+    return true;
+  } else if (message.cmd === "CAPTURE_VIEWPORT") {
+    // 由 content 发起，bg 截图当前 tab 视口并返回 dataURL
+    const { windowId } = sender.tab || {};
+    chrome.tabs.captureVisibleTab(windowId, { format: "png" }, (dataUrl) => {
+      sendResponse({ dataUrl });
+    });
+    // 异步
+    return true;
+  } else if (message.cmd === "OFFSCREEN_MESSAGE") {
+    // 转发消息给 offscreen（如 INIT / APPEND_ROWS / FINALIZE）
+    chrome.runtime.sendMessage(message.payload, sendResponse);
+    return true;
+  } else if (message.cmd === "DOWNLOAD") {
+    chrome.downloads.download({
+      url: message.url,
+      filename: message.filename,
+    });
+    return true;
   }
 });
 
