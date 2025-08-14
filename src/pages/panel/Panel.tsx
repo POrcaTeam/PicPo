@@ -33,7 +33,7 @@ export default function Panel() {
     const url = tab?.url || "";
     if (!tab.id) return false;
 
-    return isRealWebPage(url, tab);
+    return await isRealWebPage(url, tab);
   }, []);
 
   const [tabId, setTabId] = useState<number>(0);
@@ -50,7 +50,7 @@ export default function Panel() {
           }
         );
       });
-  }, [isRealWebPage]);
+  }, [isRealPage]);
 
   // 得到数据发送通道实例，可以向指定frameId发送消息
   const { communication, dispose } = useCommunication(
