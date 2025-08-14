@@ -48,5 +48,9 @@
   "no_content": {
     "message": "Нет содержимого",
     "description": "Message displayed when an image fails to load"
+  },
+  "fullpage_screenshot":{
+    "message": "Скриншот всей страницы",
+    "description": "Сделать снимок всей страницы"
   }
 }

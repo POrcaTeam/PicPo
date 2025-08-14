@@ -48,5 +48,9 @@
   "no_content": {
     "message": "无内容",
     "description": "图片无法正常显示"
+  },
+  "fullpage_screenshot":{
+    "message": "整页截图",
+    "description": "捕获整个页面"
   }
 }

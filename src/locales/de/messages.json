@@ -45,5 +45,9 @@
   "download_zip": { "message": "Als ZIP herunterladen" },
   "save_to_picorca":{"message":"Speichern bei Picorca"},
   "collecting": { "message": "Wird gesammelt..." },
-  "no_content": { "message": "Kein Inhalt" }
+  "no_content": { "message": "Kein Inhalt" },
+  "fullpage_screenshot":{
+    "message": "Vollbild-Screenshot",
+    "description": "Erfassen Sie die gesamte Seite"
+  }
 }

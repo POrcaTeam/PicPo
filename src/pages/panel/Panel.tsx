@@ -15,6 +15,7 @@ import "@pages/panel/Panel.css";
 import { useUnmount } from "./inject/useUnmount";
 import { connStore } from "@src/stores/conn-store";
 import { Download } from "./components/download";
+import { isRealWebPage } from "@src/utils/utils";
 
 export default function Panel() {
   const { addImages, addLinks, allFrames } = useImageStore(
@@ -26,38 +27,19 @@ export default function Panel() {
   );
 
   // 是否是真实网页
-  const isRealWebPage = useAsyncMemo(async () => {
+  const isRealPage = useAsyncMemo(async () => {
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     const tab = tabs[0];
     const url = tab?.url || "";
     if (!tab.id) return false;
 
-    const realWebPage =
-      !url.startsWith("chrome://") && !url.startsWith("chrome-extension://");
-    if (realWebPage) {
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: () => console.log("Hello from content script"),
-        });
-      } catch (err: any) {
-        if (err.message.includes("scripting is restricted")) {
-          console.warn("脚本注入被限制：", err.message);
-          // 你可以选择提示用户或禁用某些功能
-          return false;
-        } else {
-          console.error("其他脚本注入错误：", err.message);
-          return false;
-        }
-      }
-    }
-    return realWebPage;
+    return isRealWebPage(url, tab);
   }, []);
 
   const [tabId, setTabId] = useState<number>(0);
   useEffect(() => {
     // 查询网页内所有图片
-    isRealWebPage &&
+    isRealPage &&
       chrome.windows.getCurrent((currentWindow) => {
         // 此方法可以在外挂到网页内执行
         chrome.tabs.query(
@@ -109,8 +91,8 @@ export default function Panel() {
   });
   return (
     <div className="w-full flex flex-col flex-nowrap items-center justify-center h-dvh">
-      {!isRealWebPage && <ErrEl />}
-      {isRealWebPage && (
+      {!isRealPage && <ErrEl />}
+      {isRealPage && (
         <>
           <div className="w-full">
             <Progress />

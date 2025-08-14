@@ -1,4 +1,5 @@
 import { downloadImages } from "./download";
+import "./installed";
 import "./rules";
 
 // 消息提醒
@@ -146,6 +147,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.runtime.sendMessage(message.payload, sendResponse);
     return true;
   } else if (message.cmd === "DOWNLOAD") {
+    // chrome.tabs.create({
+    //   url: chrome.runtime.getURL("src/pages/edit/index.html"),
+    // });
     chrome.downloads.download({
       url: message.url,
       filename: message.filename,

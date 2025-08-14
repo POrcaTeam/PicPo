@@ -312,3 +312,32 @@ export function generateDefaultZipName(pageUrl: string): string {
   const timestamp = formatTimestamp(new Date());
   return `${domain}_${timestamp}`;
 }
+
+// 验证是否为真实网页
+export const isRealWebPage = async (
+  url: string,
+  tab: chrome.tabs.Tab
+): Promise<boolean> => {
+  const realWebPage =
+    !url.startsWith("chrome://") && !url.startsWith("chrome-extension://");
+  if (realWebPage && tab?.id) {
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => console.log("Hello from content script"),
+      });
+      return true;
+    } catch (err: any) {
+      if (err.message.includes("scripting is restricted")) {
+        console.warn("脚本注入被限制：", err.message);
+        // 你可以选择提示用户或禁用某些功能
+        return false;
+      } else {
+        console.error("其他脚本注入错误：", err.message);
+        return false;
+      }
+    }
+  } else {
+    return false;
+  }
+};

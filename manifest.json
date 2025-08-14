@@ -12,6 +12,9 @@
   "side_panel": {
     "default_path": "src/pages/panel/index.html"
   },
+  "chrome_url_overrides": {
+    "edit": "src/pages/edit/index.html"
+  },
   "icons": {
     "128": "icon-128.png"
   },
@@ -19,6 +22,7 @@
     "<all_urls>"
   ],
   "permissions": [
+    "contextMenus",
     "storage",
     "tabs",
     "activeTab",
