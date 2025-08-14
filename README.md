@@ -1,6 +1,14 @@
+<img alt="Picpo插画" src="https://github.com/user-attachments/assets/57deef44-e727-4919-a1a8-219e2760d7a6" />
+
+<div align="center">
+  
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/POrcaTeam/picorca-extension/blob/main/LICENSE)
+
+</div>
+
 # Picpo
 
-Picpo is a web resource scraping tool that makes it easy to collect materials in the browser and save them to [Picorca](https://picorca.com).
+*Picpo* is a web resource scraping tool that makes it easy to collect materials in the browser and save them to [Picorca](https://picorca.com).
 
 # Usage
 ## Getting started
@@ -33,3 +41,5 @@ For Firefox
 2. Access - about:debugging#/runtime/this-firefox
 3. Click - Load temporary Add-on
 4. Select - any file in dist_firefox folder (i.e. manifest.json) in this project (after dev or build)
+
+
