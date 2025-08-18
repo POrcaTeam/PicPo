@@ -42,4 +42,8 @@ For Firefox
 3. Click - Load temporary Add-on
 4. Select - any file in dist_firefox folder (i.e. manifest.json) in this project (after dev or build)
 
+# Preview
+<img width="350" alt="Picpo preview" src="https://github.com/user-attachments/assets/77db0c55-6423-450b-af17-41fc007c3751" />
+
+
 
