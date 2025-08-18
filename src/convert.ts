@@ -96,6 +96,13 @@ export class Collector {
   private validateJobs = 0;
   private digJobs = 0;
 
+  // 性能优化：缓存网络请求与偏好设置，减少重复 I/O
+  private headsCache = new Map<string, Promise<any>>();
+  private segmentCache = new Map<string, Promise<any>>();
+  private headPrefs?: { "head-timeout": number; "head-delay": number };
+  private digPrefs?: { "dig-timeout": number; "dig-delay": number };
+  private customExtensions?: string[];
+
   constructor(
     private regexp: RegExp[] = [], // 正则表达式
     private deep: number = 1, // 检索深度 1|2|3
@@ -139,6 +146,13 @@ export class Collector {
 
   // 反馈当前进度
   private report() {
+    console.log(
+      this.feeds[1].length,
+      this.feeds[2].length,
+      this.feeds[3].length,
+      this.rawImages.length,
+      this.docs.length
+    );
     testPost({
       cmd: "progress",
       value:
@@ -224,7 +238,7 @@ export class Collector {
     if (im && conds.some(Boolean)) return im;
 
     try {
-      const meta: any = await Utils.responseHeads(o);
+      const meta: any = await this.getResponseHeads(o);
       meta.type = Utils.type(im?.meta as any, meta);
       if (o.verified && !meta.type) meta.type = "image/unknown";
       return { meta, origin: "bg.fetch" };
@@ -275,7 +289,7 @@ export class Collector {
         this.report();
         this.validate();
       },
-      rm ? 100 : 0
+      rm ? 10 : 0
     );
   }
 
@@ -301,15 +315,17 @@ export class Collector {
   private async head() {
     if (this.headJobs > 5 || !this.active) return;
 
-    const prefs = await new Promise<{
-      "head-timeout": number;
-      "head-delay": number;
-    }>((resolve) =>
-      chrome.storage.local.get(
-        { "head-timeout": 30000, "head-delay": 100 },
-        resolve
-      )
-    );
+    if (!this.headPrefs) {
+      this.headPrefs = await new Promise<{
+        "head-timeout": number;
+        "head-delay": number;
+      }>((resolve) =>
+        chrome.storage.local.get(
+          { "head-timeout": 30000, "head-delay": 100 },
+          resolve
+        )
+      );
+    }
 
     const o = this.rawImages.shift();
     if (!o) return;
@@ -317,7 +333,7 @@ export class Collector {
     this.headJobs++;
 
     try {
-      const r = await Utils.responseSegment(o);
+      const r = await this.getResponseSegment(o);
 
       o.size = r.size;
       o.type = Utils.type(o, r);
@@ -375,7 +391,7 @@ export class Collector {
       this.headJobs--;
       this.report();
       this.head();
-    }, prefs["head-delay"]);
+    }, this.headPrefs["head-delay"]);
   }
 
   // 添加新文档
@@ -392,18 +408,20 @@ export class Collector {
   private async dig() {
     if (this.digJobs > 5 || !this.active) return;
 
-    const prefs = await new Promise<{
-      "dig-timeout": number;
-      "dig-delay": number;
-    }>((resolve) =>
-      chrome.storage.local.get(
-        {
-          "dig-delay": 100,
-          "dig-timeout": 30 * 1000,
-        },
-        resolve
-      )
-    );
+    if (!this.digPrefs) {
+      this.digPrefs = await new Promise<{
+        "dig-timeout": number;
+        "dig-delay": number;
+      }>((resolve) =>
+        chrome.storage.local.get(
+          {
+            "dig-delay": 100,
+            "dig-timeout": 30 * 1000,
+          },
+          resolve
+        )
+      );
+    }
 
     const o = this.docs.shift();
     if (!o?.src) return;
@@ -431,7 +449,7 @@ export class Collector {
       this.digJobs--;
       this.report();
       this.dig();
-    }, prefs["dig-delay"]);
+    }, this.digPrefs["dig-delay"]);
   }
 
   /**
@@ -457,16 +475,19 @@ export class Collector {
     const { accuracy } = options;
     this.accuracy = accuracy ? accuracy : "no-accurate";
 
-    const prefs = await new Promise<{
-      "custom-extensions": string[];
-    }>((resolve) =>
-      chrome.storage.local.get(
-        {
-          "custom-extensions": ["pdf"],
-        },
-        resolve
-      )
-    );
+    if (!this.customExtensions) {
+      const prefs = await new Promise<{
+        "custom-extensions": string[];
+      }>((resolve) =>
+        chrome.storage.local.get(
+          {
+            "custom-extensions": ["pdf"],
+          },
+          resolve
+        )
+      );
+      this.customExtensions = prefs["custom-extensions"] || ["pdf"];
+    }
 
     const docs: (Document | ShadowRoot)[] = [doc];
     this.findRoots(doc, docs);
@@ -648,12 +669,12 @@ export class Collector {
       }
 
       // part 8: custom extensions
-      if (prefs["custom-extensions"].length) {
+      if ((this.customExtensions?.length || 0) > 0) {
         for (const doc of docs) {
           for (const a of doc.querySelectorAll("a")) {
             if (
               a.href &&
-              prefs["custom-extensions"].some((e) => a.href.includes("." + e))
+              this.customExtensions!.some((e) => a.href.includes("." + e))
             ) {
               this.push({
                 width: 1,
@@ -675,5 +696,30 @@ export class Collector {
         }
       }
     }
+  }
+
+  // === 缓存封装 ===
+  private getResponseHeads(o: ImageEntry): Promise<any> {
+    const key = o.src;
+    const cached = this.headsCache.get(key);
+    if (cached) return cached;
+    const p = Utils.responseHeads(o).catch((e) => {
+      this.headsCache.delete(key);
+      throw e;
+    });
+    this.headsCache.set(key, p);
+    return p;
+  }
+
+  private getResponseSegment(o: ImageEntry): Promise<any> {
+    const key = o.src;
+    const cached = this.segmentCache.get(key);
+    if (cached) return cached;
+    const p = Utils.responseSegment(o).catch((e) => {
+      this.segmentCache.delete(key);
+      throw e;
+    });
+    this.segmentCache.set(key, p);
+    return p;
   }
 }
