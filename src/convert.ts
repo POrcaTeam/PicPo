@@ -289,7 +289,7 @@ export class Collector {
         this.report();
         this.validate();
       },
-      rm ? 10 : 0
+      rm ? 40 : 0
     );
   }
 
