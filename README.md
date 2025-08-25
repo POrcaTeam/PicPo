@@ -6,7 +6,8 @@
 
 </div>
 
-# Picpo
+# <img width="26" height="26" alt="icon-128" src="https://github.com/user-attachments/assets/8e6482ea-c937-47e0-a1fb-412ca137614f" />  Picpo
+
 
 *Picpo* is a web resource scraping tool that makes it easy to collect materials in the browser and save them to [Picorca](https://picorca.com).
 
